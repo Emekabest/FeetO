@@ -1,5 +1,8 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { appPrimaryColor } from "../AllScreenFuntions";
+
+const { width } = Dimensions.get('window')
+const slideWidth = width * 0.8
 
 
 const HomeScreenStyles = StyleSheet.create({
@@ -9,7 +12,6 @@ const HomeScreenStyles = StyleSheet.create({
         height:120,
         backgroundColor:'#fff',
         paddingBottom:3
-
     },
     
     advertULContainer:{
@@ -21,10 +23,9 @@ const HomeScreenStyles = StyleSheet.create({
 
     advertList:{
         height:90,
-        width:200,
+        width:slideWidth,
         backgroundColor:appPrimaryColor,
-        marginRight:10,
-        marginLeft:10,
+        marginHorizontal:10,
         borderRadius:6,
      },
 
@@ -48,13 +49,11 @@ const HomeScreenStyles = StyleSheet.create({
      productCardMainContainerInner:{
       display:'flex',
       alignItems:'center',
-
     },
 
     flatListProductCard:{
       display:'flex',
       alignItems:"flex-start",
-      // backgroundColor:'lightgray',
       gap:10,
    },
     
