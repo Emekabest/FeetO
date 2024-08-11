@@ -20,16 +20,17 @@ interface ProductDetailsProp{
 const fontAwesomeIconSize = 19
 
 const ProductDetailsScreen:React.FC<ProductDetailsProp> = ({navigation, route})=>{
+    
     const [product, setProduct] = useState({})
-
+    
     const [myProduct, setMyProduct] = useState({})
-
+    
     const { id } = route.params
-
+    
     /** */
     const [forthSectionInner2_display, setForthSectionInner2_display] = useState<boolean>(false)
-
     const previousScreen = getPreviousScreen(useNavigationState)
+
 
 
 

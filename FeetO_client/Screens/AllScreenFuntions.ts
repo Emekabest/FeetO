@@ -1,3 +1,4 @@
+import axios from "axios";
 
 /**App Primary Color */
 const appPrimaryColor = "#a12323"
@@ -14,7 +15,25 @@ const getPreviousScreen = (useNavigationState:any)=>{
 ///////////////////////////////////////
 
 
-    
-    
 
-    export {getPreviousScreen, appPrimaryColor}
+
+/**This function gets all items from the database............ */
+const getAllItems = async (route:string)=>{
+
+    try{
+        const response = await axios.get(`https://9s5gflpjlh.execute-api.us-east-1.amazonaws.com${route}`)
+
+        return response.data.items
+    }
+    catch(err){
+
+        return err
+    }
+
+}
+
+////////////////////////////////////////////////////
+
+
+
+export {getPreviousScreen, getAllItems, appPrimaryColor}

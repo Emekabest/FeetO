@@ -9,7 +9,7 @@ import BottomTab from "../BottomTab/BottomTab";
 import { useNavigationState } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { appPrimaryColor } from "../AllScreenFuntions";
+import { appPrimaryColor, getAllItems } from "../AllScreenFuntions";
 
 interface HomeScreenProps{
     navigation:any
@@ -34,29 +34,33 @@ const HomeScreen:React.FC<HomeScreenProps> = ({navigation})=> {
     ///////////////////////////////////////////////////
 
 
+    
 
-    /**Getting the the items data from the databse................................................................................ */
-    axios.get('https://9s5gflpjlh.execute-api.us-east-1.amazonaws.com/').then((res)=>{
+/**Getting the the items data from the databse................................................................................ */
+    useEffect(()=>{
 
+        const getItems = async ()=>{
+            const allItems = await getAllItems('/')
 
-        if (!Items_db.length){
+            if (!Items_db.length){
+                setItems_db(allItems)
+            }
+            console.log(allItems.length)
 
-            setItems_db(res.data.items)
         }
+        getItems()
+    },[])
 
-    }).catch((err)=>{
 
-        console.log('Error: ' + err)
-    })
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    //////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////
+
 
 
 
 
 /**Appending each data from the database to a new array "AllItems"...........................*/
-    if (!AllItems.length){
+    if (!AllItems.length && Items_db.length){
 
         Items_db.forEach((item)=>{
 
@@ -70,7 +74,11 @@ const HomeScreen:React.FC<HomeScreenProps> = ({navigation})=> {
             
         })
     }
-    //////////////////////////////////////////////////////////////////////////////////////
+    else{
+
+        console.log(Items_db)
+    }
+//////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -127,6 +135,7 @@ useEffect(()=>{
              *  and assigning the incremented value to nextIndex */
             nextIndex = currentIndex + 1;
 
+
             /**This statement runs when nextIndex is confirmed to be equals or greater than the slides.length  */
             if (nextIndex >= slides.length){
 
@@ -136,10 +145,10 @@ useEffect(()=>{
             }
 
         }
-        else{//This block runs only when the slides is moving in the backward direction / reverse direction
+        else{//This block runs only when the slides is moving in the backward direction/reversing
 
             /**Decrementing the currentIndex position based on the fact that we are in the backward direction movement lane,
-             *  and assigning the decremented value to nextIndex */
+             *and assigning the decremented value to nextIndex */
             nextIndex = currentIndex - 1;
 
             /**This statement runs when nextIndex is confirmed to be less than 0 */
@@ -165,7 +174,6 @@ useEffect(()=>{
     
     return () => clearInterval(interval);
 },[currentIndex, direction])
-
 /**//////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 /**//////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
@@ -174,13 +182,12 @@ useEffect(()=>{
 
 
 
-/**This function handles when the slide is being scrolled manually or dragged */
+/**This function handles when the slide is being scrolled manually or dragged........................ */
 const handleScroll = (event:any)=>{
 
     const newIndex = Math.round(event.nativeEvent.contentOffset.x / slideWidth);//Gets the X direction offset value of the slide animation scrollView after being dragged or scrolled
                                                                                 //and divides it by the screen/slideWidth to return a rounded integer
     setCurrentIndex(newIndex);//Sets the currentIndex to the newIndex value gotten after being dragged or scrolled
-
 
     
     if (newIndex === slides.length - 1) {
@@ -195,8 +202,10 @@ const handleScroll = (event:any)=>{
     console.log(newIndex, currentIndex)
 
 }
-
 ////////////////////////////////////////////////////////////////////////////////////
+
+
+
 
 
 if (AllItems.length){
@@ -262,6 +271,9 @@ if (AllItems.length){
                         <FlatList
                             key={numColumnsId}
                             data={AllItems}
+                            scrollEnabled = {false}
+                            numColumns={numColumnsId}
+                            contentContainerStyle = {HomeScreenStyles.flatListProductCard}
                             keyExtractor={(item)=> String(item.key)}
                             renderItem={({item})=>(
                                 <TouchableOpacity style = {HomeScreenStyles.productCard} onPress={()=> navigation.navigate('ProductDetails', {id:item.key})}>
@@ -282,9 +294,6 @@ if (AllItems.length){
 
                                 </TouchableOpacity>
                             )}
-                            scrollEnabled = {false}
-                            numColumns={numColumnsId}
-                            contentContainerStyle = {HomeScreenStyles.flatListProductCard}
                         />
 
                     </View>

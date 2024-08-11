@@ -4,4 +4,5 @@ export type RootStackParamList = {
     Cart:undefined;
     previousScreenName:any
     Account:any
+    SearchItemsScreen:any
     };

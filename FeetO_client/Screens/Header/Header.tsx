@@ -29,12 +29,12 @@ const Header:React.FC<HeaderProps> = ({screenName, previousScreen, id})=>{
 
             return(
                 <View style = {[AllScreenStyles.Header, {display:'flex', flexDirection:'row', justifyContent:'space-between'}]}>
-                    <View style = {AllScreenStyles.seacrhBarContainer}>
+                    <TouchableOpacity  style = {AllScreenStyles.seacrhBarContainer} onPress={()=> navigation.navigate('SearchItems')}>
                         <View style = {AllScreenStyles.seacrhBarContainerInnerLeft}><FontAwesomeIcon icon={faSearch} size={fontAwesomeIconSize} /></View>
                         <View style = {AllScreenStyles.seacrhBarContainerInnerRight}>
                             <Text style = {AllScreenStyles.seacrhBarContainerInnerRightTxt}>Search on FeetO</Text>
                         </View>
-                    </View>
+                    </TouchableOpacity>
                     <TouchableOpacity style = {AllScreenStyles.cartSection} onPress={()=> navigation.navigate('Cart')}>
                         <FontAwesomeIcon icon = {faCartShopping} color="#fff" size={22} />
                     </TouchableOpacity>

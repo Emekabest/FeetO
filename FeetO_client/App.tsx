@@ -14,6 +14,7 @@ import LoginScreen from './Screens/LoginScreen/LoginScreen';
 import AdminScreen from './Screens/AdminScreen/AdminScreen';
 import AllOrdersScreen from './Screens/AdminScreen/AllOrdersScreen';
 import AddProdutAdminScreen from './Screens/AdminScreen/AddProductScreen';
+import SearchItemsScreen from './Screens/SearchItemsScreen/SearchItemsScreen';
 /**................................................................ */
 
 
@@ -39,6 +40,7 @@ function App(): React.JSX.Element {
             <Stack.Screen name="Admin" component={AdminScreen} options={{headerShown:false}}/>
             <Stack.Screen name="AllOrders" component={AllOrdersScreen} options={{headerShown:false}}/>
             <Stack.Screen name="AddProductScreen" component={AddProdutAdminScreen} options={{headerShown:false}}/>
+            <Stack.Screen name="SearchItems" component={SearchItemsScreen} options={{headerShown:false}}/>
 
         </Stack.Navigator>
       </SafeAreaView>
