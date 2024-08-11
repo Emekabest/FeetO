@@ -105,7 +105,10 @@ headerRightSection:{
 
 /**Bootom Styles.................... */
     BottomTab:{
-        backgroundColor:"#fff"
+        backgroundColor:"#fff",
+        position:'absolute',
+        bottom:0,
+        width:'100%'
    },
 
    BottomTabInner:{

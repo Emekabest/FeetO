@@ -6,6 +6,7 @@ import AccountScreenStyles from "./AccountScreenStyles"
 import AllScreenStyles from "../AllScreenStyles"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useEffect, useState } from "react"
+import BottomTab from "../BottomTab/BottomTab"
 
 
 interface AccountScreenProp{
@@ -45,7 +46,7 @@ const AccountScreen:React.FC<AccountScreenProp> =  ({navigation})=>{
 
     return(
         <View style = {AllScreenStyles.body}>
-            <View>
+            {/* <View> */}
                 <Header screenName="Account" previousScreen={previousScreen} />
 
                     <View style = {AccountScreenStyles.mainBody}>
@@ -102,7 +103,10 @@ const AccountScreen:React.FC<AccountScreenProp> =  ({navigation})=>{
                                 </View>
                             </View>
                     </View>
-            </View>
+
+
+            {/* </View> */}
+                    <BottomTab />
         </View>
     )
 }
