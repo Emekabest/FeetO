@@ -97,9 +97,28 @@ headerRightSection:{
 
 
 
-
-
 /**//////////////////////////////////////////////////////////////// */
+
+
+/**Loader Styles Section...................... */
+loaderMainCont:{
+height:'100%',
+width:'100%',
+backgroundColor:'#fff',
+// opacity:0.3,
+position:'absolute',
+zIndex:1
+
+},
+
+loaderMainContInner:{
+    height:'100%',
+    alignItems:'center',
+    justifyContent:'center'
+},
+
+
+//////////////////////////////////////////
 
 
 

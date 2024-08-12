@@ -103,7 +103,11 @@ try{
     _id,
     name,
     price,
-    image:image.toString('base64')
+    image:{
+      filename:image.filename,
+      data:image.data.toString('base64'),
+      contentType:image.contentType
+    }
   }, status:200})
 
 }

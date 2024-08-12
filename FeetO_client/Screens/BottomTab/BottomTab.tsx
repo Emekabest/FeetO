@@ -37,9 +37,6 @@ const BottomTab:React.FC<BottomTabProp> = ()=>{
     const routes = useNavigationState((state: { routes: any; }) => state.routes);
     const currentScreen = routes[routes.length -1]
 
-    console.log(currentScreen.name)
-    console.log(bottomTab3rdChild_color)
-
 
     useEffect(()=>{
 

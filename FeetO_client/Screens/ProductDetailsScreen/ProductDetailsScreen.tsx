@@ -11,6 +11,7 @@ import { getPreviousScreen} from "../AllScreenFuntions"
 import { useNavigationState } from "@react-navigation/native"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import axios from "axios"
+import Loader from "../Loader/Loader"
 
 interface ProductDetailsProp{
      navigation:any,
@@ -40,6 +41,7 @@ const ProductDetailsScreen:React.FC<ProductDetailsProp> = ({navigation, route})=
 
             axios.get(`https://9s5gflpjlh.execute-api.us-east-1.amazonaws.com/product/${id}`).then((res)=>{
 
+                console.log(res.data.product)
                 setProduct(res.data.product)
 
             }).catch((err)=>{
@@ -119,12 +121,17 @@ const ProductDetailsScreen:React.FC<ProductDetailsProp> = ({navigation, route})=
             Alert.alert("Couldn't add to cart, Check your network connectivity")
         }
 
-        
+    
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    
 
 
+    if (!product.name){
+
+        return <Loader />
+    }
     return (
         <View style = {AllScreenStyles.body}>
             <View style = {{position:"relative", height:'100%'}}>
@@ -133,7 +140,7 @@ const ProductDetailsScreen:React.FC<ProductDetailsProp> = ({navigation, route})=
                 <ScrollView style = {{height:"80%"}}>{/**Body.................*/}
                     <View style = {ProductDetailsSCreenStyles.firstSection}>
                         <View>
-                            <Image source={{uri:`data:image/jpeg;base64,${product.image}`}}
+                            <Image source={{uri:`data:image/jpeg;base64,${product.image.data}`}}
                             style = {{height:"100%"}}
                             resizeMode="cover"
                             />

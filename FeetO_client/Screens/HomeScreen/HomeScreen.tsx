@@ -10,6 +10,7 @@ import { useNavigationState } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { appPrimaryColor, getAllItems } from "../AllScreenFuntions";
+import Loader from "../Loader/Loader";
 
 interface HomeScreenProps{
     navigation:any
@@ -20,10 +21,7 @@ const HomeScreen:React.FC<HomeScreenProps> = ({navigation})=> {
     const numColumnsId = 3 //Coulmn number of the Home Items UI
 
 
-
-
     /**Contains all items available.............*/
-    
     const AllItems: { key: never; name: never; price: never; image: never; }[] = [];
     //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -59,7 +57,7 @@ const HomeScreen:React.FC<HomeScreenProps> = ({navigation})=> {
 
 
 
-/**Appending each data from the database to a new array "AllItems"...........................*/
+/**Appending each data from the database to a new array "AllItems"........................*/
     if (!AllItems.length && Items_db.length){
 
         Items_db.forEach((item)=>{
@@ -117,7 +115,7 @@ const slides = [
     },
 
 ]
-/**.................................. */
+/**....................................................................................... */
 
 
 
@@ -184,7 +182,6 @@ useEffect(()=>{
 
 /**This function handles when the slide is being scrolled manually or dragged........................ */
 const handleScroll = (event:any)=>{
-
     const newIndex = Math.round(event.nativeEvent.contentOffset.x / slideWidth);//Gets the X direction offset value of the slide animation scrollView after being dragged or scrolled
                                                                                 //and divides it by the screen/slideWidth to return a rounded integer
     setCurrentIndex(newIndex);//Sets the currentIndex to the newIndex value gotten after being dragged or scrolled
@@ -207,103 +204,104 @@ const handleScroll = (event:any)=>{
 
 
 
-
-if (AllItems.length){
+if (!AllItems.length){
     
+    return <Loader />
+}
+return (
+    <View style = {AllScreenStyles.body}>
+        <Header screenName = "Home" previousScreen="None"/>{/**Header............................................. */}
+        
 
-    return (
-        <View style = {AllScreenStyles.body}>
-            <Header screenName = "Home" previousScreen="None"/>{/**Header............................................. */}
+        <ScrollView>{/**Body............ */}
+            <View style = {HomeScreenStyles.mainAdvertContainer} >{/**Advert Slider */}
+                    <View style = {HomeScreenStyles.advertULContainer}>
 
-            <ScrollView>{/**Body............ */}
-                <View style = {HomeScreenStyles.mainAdvertContainer} >{/**Advert Slider */}
-                        <View style = {HomeScreenStyles.advertULContainer}>
+                    
+                    {/**Animation.................................................... */}
+                        <Animated.ScrollView
+                            // contentContainerStyle = {{paddingHorizontal:2 }}
+                            ref={scrollViewRef}
+                            horizontal
+                            showsHorizontalScrollIndicator = {false}
+                            pagingEnabled
+                            snapToInterval={slideWidth + (10 * 2)}
+                            decelerationRate="fast"
+                            snapToAlignment='center'
+                            onScroll={Animated.event(
+                                [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                                { useNativeDriver: false }
+                            )}
+                            onMomentumScrollEnd={handleScroll}
+                        >
 
-                        {/**Animation.................................................... */}
-                            <Animated.ScrollView
-                                // contentContainerStyle = {{paddingHorizontal:2 }}
-                                ref={scrollViewRef}
-                                horizontal
-                                showsHorizontalScrollIndicator = {false}
-                                pagingEnabled
-                                snapToInterval={slideWidth + (10 * 2)}
-                                decelerationRate="fast"
-                                snapToAlignment='center'
-                                onScroll={Animated.event(
-                                    [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-                                    { useNativeDriver: false }
-                                )}
-                                onMomentumScrollEnd={handleScroll}
-                            >
-
-                                {
-                                    slides.map((slide)=>(
-                                        <View key={slide.key} style = {HomeScreenStyles.advertList}></View>
-                                    )
-                                    )
-                                }
-                                
-                            </Animated.ScrollView>
-                            {/*////////////////////////////////////////////////////////////////////////////////*/}
+                            {
+                                slides.map((slide)=>(
+                                    <View key={slide.key} style = {HomeScreenStyles.advertList}></View>
+                                )
+                                )
+                            }
                             
-                        </View>
+                        </Animated.ScrollView>
+                        {/*////////////////////////////////////////////////////////////////////////////////*/}
+                        
+                    </View>
 
-                    <View style = {HomeScreenStyles.advertListIndicatorContainer}>
+                <View style = {HomeScreenStyles.advertListIndicatorContainer}>
 
-                        {
-                            slides.map((slide)=>(
-                                <View key={slide.key} style = {HomeScreenStyles.advertListIndicator}>
-                                    <FontAwesomeIcon 
-                                    icon={faCircleDot}
-                                    size={8}
-                                    color={slide.key - 1 === currentIndex ? appPrimaryColor : 'lightgray'}
+                    {
+                        slides.map((slide)=>(
+                            <View key={slide.key} style = {HomeScreenStyles.advertListIndicator}>
+                                <FontAwesomeIcon 
+                                icon={faCircleDot}
+                                size={8}
+                                color={slide.key - 1 === currentIndex ? appPrimaryColor : 'lightgray'}
+                                />
+                            </View>
+                        ))
+                    }
+
+                </View>
+            </View>
+
+            <View style = {HomeScreenStyles.productCardMainContainer}>{/**All Product Template*/}
+                <View style = {HomeScreenStyles.productCardMainContainerInner}>
+                    
+                    <FlatList
+                        key={numColumnsId}
+                        data={AllItems}
+                        scrollEnabled = {false}
+                        numColumns={numColumnsId}
+                        contentContainerStyle = {HomeScreenStyles.flatListProductCard}
+                        keyExtractor={(item)=> String(item.key)}
+                        renderItem={({item})=>(
+                            <TouchableOpacity style = {HomeScreenStyles.productCard} onPress={()=> navigation.navigate('ProductDetails', {id:item.key})}>
+                                <View style = {HomeScreenStyles.productCardImg}>
+                                    <Image source={{ uri: `data:image/jpeg;base64,${item.image.data}`}}
+                                        style = {{height:'100%'}}
                                     />
                                 </View>
-                            ))
-                        }
 
-                    </View>
-                </View>
-
-                <View style = {HomeScreenStyles.productCardMainContainer}>{/**All Product Template*/}
-                    <View style = {HomeScreenStyles.productCardMainContainerInner}>
-                        
-                        <FlatList
-                            key={numColumnsId}
-                            data={AllItems}
-                            scrollEnabled = {false}
-                            numColumns={numColumnsId}
-                            contentContainerStyle = {HomeScreenStyles.flatListProductCard}
-                            keyExtractor={(item)=> String(item.key)}
-                            renderItem={({item})=>(
-                                <TouchableOpacity style = {HomeScreenStyles.productCard} onPress={()=> navigation.navigate('ProductDetails', {id:item.key})}>
-                                    <View style = {HomeScreenStyles.productCardImg}>
-                                        <Image source={{ uri: `data:image/jpeg;base64,${item.image.data}`}}
-                                            style = {{height:'100%'}}
-                                        />
+                                <View style = {HomeScreenStyles.productCardDetails}>
+                                    <View style ={HomeScreenStyles.productCardDetailsNameCont}>
+                                        <Text style = {HomeScreenStyles.productCardDetailsName}>{item.name}</Text>
                                     </View>
-
-                                    <View style = {HomeScreenStyles.productCardDetails}>
-                                        <View style ={HomeScreenStyles.productCardDetailsNameCont}>
-                                            <Text style = {HomeScreenStyles.productCardDetailsName}>{item.name}</Text>
-                                        </View>
-                                        <View style ={HomeScreenStyles.productCardDetailsPriceCont}>
-                                            <Text style = {HomeScreenStyles.productCardDetailsPrice}>N {item.price}</Text>
-                                        </View>
+                                    <View style ={HomeScreenStyles.productCardDetailsPriceCont}>
+                                        <Text style = {HomeScreenStyles.productCardDetailsPrice}>N {item.price}</Text>
                                     </View>
+                                </View>
 
-                                </TouchableOpacity>
-                            )}
-                        />
+                            </TouchableOpacity>
+                        )}
+                    />
 
-                    </View>
                 </View>
-            </ScrollView>
+            </View>
+        </ScrollView>
 
-        <BottomTab />
-        </View>
-    );
-}
+    <BottomTab />
+    </View>
+);
   }
 
   export default HomeScreen
