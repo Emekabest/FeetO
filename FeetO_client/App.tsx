@@ -17,7 +17,8 @@ import AddProdutAdminScreen from './Screens/AdminScreen/AddProductScreen';
 import SearchItemsScreen from './Screens/SearchItemsScreen/SearchItemsScreen';
 /**................................................................ */
 import { Provider } from 'react-redux';
-import store from './Screens/Redux/Store';
+import store, {persistor} from './Screens/Redux/Store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 
 
@@ -30,6 +31,7 @@ function App(): React.JSX.Element {
       <StatusBar barStyle={'light-content'}/>
 
     <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
       <SafeAreaView style = {{height:'100%'}}>
         <Stack.Navigator>
             <Stack.Screen name="Home" component={HomeScreen} options={{headerShown:false}}/>
@@ -47,6 +49,7 @@ function App(): React.JSX.Element {
 
         </Stack.Navigator>
       </SafeAreaView>
+    </PersistGate>
     </Provider>
     </NavigationContainer>
   );

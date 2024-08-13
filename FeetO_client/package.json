@@ -29,7 +29,8 @@
     "react-native-screens": "^3.32.0",
     "react-native-svg": "^15.4.0",
     "react-native-webview": "^13.10.5",
-    "react-redux": "^9.1.2"
+    "react-redux": "^9.1.2",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

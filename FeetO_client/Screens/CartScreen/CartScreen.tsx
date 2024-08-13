@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons"
 import { useEffect, useState } from "react"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { useDispatch, UseDispatch } from "react-redux"
+import { addItemToCart } from "../Redux/ReduxBase"
 
 interface CartScreenProp{
     navigation:any
@@ -15,6 +17,7 @@ interface CartScreenProp{
 }
 
 const CartScreen:React.FC<CartScreenProp>= ({navigation, route})=>{
+    const dispatch = useDispatch()
     const numColoumnId = 1
     const recentProductDetailsID = route.params ? route.params.id : ""
     const previousScreen = getPreviousScreen(useNavigationState)
@@ -58,7 +61,7 @@ const CartScreen:React.FC<CartScreenProp>= ({navigation, route})=>{
 
 
 
-    /**Handles when the user deletes an item/product from the cart............................. */
+    /**Handles when the user deletes an item/product from the cart................................ */
 
         const handleDelete = async (id:string)=>{
             const tempCartItems = [...cartItems]
@@ -71,6 +74,7 @@ const CartScreen:React.FC<CartScreenProp>= ({navigation, route})=>{
             /**Updates the cart.......... */
             await AsyncStorage.setItem('CartItems',JSON.stringify(tempCartItems))
             setCartItems(tempCartItems)
+            dispatch(addItemToCart(tempCartItems))
 
             console.log('Item Deleted')
     

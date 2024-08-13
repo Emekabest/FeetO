@@ -26,33 +26,22 @@ const Header:React.FC<HeaderProps> = ({screenName, previousScreen, id})=>{
 
     const [cartItemsLength, setCartItemsLength] = useState(0)
 
+    
+    
+
     const cartItems = useSelector((state)=> state.cart.items)
+        /** */
+        useEffect(()=>{
+            const getCartLength = async ()=>{
 
-    console.log(cartItems.length)
+                    setCartItemsLength(cartItems.length)
 
-        // const getCartItems:Number = async ()=>{
-        //     const cartItems = JSON.parse(await AsyncStorage.getItem('CartItems'))
-
-        //     return cartItems.length
-        // }
-        
-
-        // /** */
-        // useEffect(()=>{
-        //     const k = async ()=>{
-
-        //         const cartItemsL = await getCartItems()
-                
-        //         console.log(cartItemsL)
-        //         // setCartItemsLength(cartItemsL)//
-
-        //     }
-        //     k()
-        // },[])
+            }
+            getCartLength()
+        },[cartItems])
     
 
     
-
     
     switch(screenName){
         case 'Home':
@@ -74,7 +63,7 @@ const Header:React.FC<HeaderProps> = ({screenName, previousScreen, id})=>{
                         </TouchableOpacity>
 
                         <View style = {AllScreenStyles.cartSectionLengthCont}>
-                            <Text style = {AllScreenStyles.cartSectionLengthContTxt}>5</Text>
+                            <Text style = {AllScreenStyles.cartSectionLengthContTxt}>{cartItemsLength}</Text>
                         </View>
                     </View>
                 </View>
@@ -104,7 +93,7 @@ const Header:React.FC<HeaderProps> = ({screenName, previousScreen, id})=>{
 
                                     {/**Items Length indictor.......................... */}
                                     <View style = {AllScreenStyles.cartSectionLengthCont}>
-                                        <Text style = {AllScreenStyles.cartSectionLengthContTxt}>5</Text>
+                                        <Text style = {AllScreenStyles.cartSectionLengthContTxt}>{cartItemsLength}</Text>
                                     </View>
                                 </View>
                                  
