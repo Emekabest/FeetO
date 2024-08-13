@@ -8,7 +8,7 @@ const AllScreenStyles = StyleSheet.create({
         height:'100%',
     },
 
-
+    
     /**Header Section Styles........................ */
     Header:{
         height:50,
@@ -52,11 +52,32 @@ const AllScreenStyles = StyleSheet.create({
     },
 
     cartSection:{
-        paddingRight:10,
+        // paddingRight:10,
         display:'flex',
-        justifyContent:'center'
+        justifyContent:'center',
+        width:30,
+        height:'100%'
     },
 
+    cartSectionLengthCont:{
+        height:12,
+        width:12,
+        backgroundColor:appPrimaryColor,
+        position:'absolute',
+        right:5,
+        top:5,
+        borderRadius:10,
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    
+    cartSectionLengthContTxt:{
+        fontSize:8,
+        fontWeight:'bold',
+        color:'#fff'
+    },
+
+    
 /**Header 2 Styles................................................*/
 header2Inner:{
     height:'100%',

@@ -22,7 +22,7 @@ const CartScreen:React.FC<CartScreenProp>= ({navigation, route})=>{
     const [cartItems, setCartItems] = useState([])
     const [totalItemPrice, setTotalItemPrice] = useState(0)
 
-
+    
 
     useEffect(()=>{
         const getCartItems = async ()=>{
@@ -134,7 +134,7 @@ const CartScreen:React.FC<CartScreenProp>= ({navigation, route})=>{
                                         <View style = {CartScreenStyles.itemContinerInner}>
                                             <View style = {CartScreenStyles.itemImage}>{/**Item Image Container... */}
                                             <View>
-                                                    <Image source={{uri:`data:image/jpeg;base64,${item.image}`}} 
+                                                    <Image source={{uri:`data:image/jpeg;base64,${item.image.data}`}}
                                                     style ={{height:'100%', width:"100%"}}
                                                     resizeMode="contain"
                                                     />

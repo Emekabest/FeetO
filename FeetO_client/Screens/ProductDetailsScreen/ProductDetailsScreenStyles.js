@@ -3,12 +3,10 @@ import { appPrimaryColor } from "../AllScreenFuntions";
 
 
 
-const ProductDetailsSCreenStyles = StyleSheet.create({
+const ProductDetailsScreenStyles = StyleSheet.create({
     firstSection:{
         height:200,
         width:'100%',
-        marginTop:5
-        
     },
 
     secondSection:{
@@ -18,9 +16,29 @@ const ProductDetailsSCreenStyles = StyleSheet.create({
     },
 
     thirdSection:{
-        minHeight:500,
+        minHeight:200,
         backgroundColor:'#fff',
-        marginTop:10
+        marginTop:10,
+        padding:7
+    },
+
+    thirdSectionName:{
+
+    },
+
+    thirdSectionNameTxt:{
+        color:'#333',
+        fontSize:17
+    },
+
+    thirdSectionPrice:{
+        marginVertical:5
+    },
+
+    thirdSectionPriceTxt:{
+        fontWeight:'bold',
+        fontSize:18,
+        color:'#333'
     },
 
     forthSection:{
@@ -120,4 +138,4 @@ const ProductDetailsSCreenStyles = StyleSheet.create({
 })
 
 
-export default ProductDetailsSCreenStyles
+export default ProductDetailsScreenStyles

@@ -1,6 +1,6 @@
 import { Alert, Image, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from "react-native"
 import Header from "../Header/Header"
-import ProductDetailsSCreenStyles from "./ProductDetailsScreenStyles"
+import ProductDetailsScreenStyles from "./ProductDetailsScreenStyles"
 import AllScreenStyles from "../AllScreenStyles"
 import { height } from "@fortawesome/free-solid-svg-icons/fa0"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
@@ -12,6 +12,8 @@ import { useNavigationState } from "@react-navigation/native"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import axios from "axios"
 import Loader from "../Loader/Loader"
+import { useDispatch } from "react-redux"
+import { addItemToCart } from "../Redux/ReduxBase"
 
 interface ProductDetailsProp{
      navigation:any,
@@ -19,42 +21,46 @@ interface ProductDetailsProp{
 }
 
 const fontAwesomeIconSize = 19
-
 const ProductDetailsScreen:React.FC<ProductDetailsProp> = ({navigation, route})=>{
+    const previousScreen = getPreviousScreen(useNavigationState)
+    const dispatch = useDispatch();
     
     const [product, setProduct] = useState({})
     
     const [myProduct, setMyProduct] = useState({})
     
     const { id } = route.params
-    
-    /** */
+
     const [forthSectionInner2_display, setForthSectionInner2_display] = useState<boolean>(false)
-    const previousScreen = getPreviousScreen(useNavigationState)
 
 
+    
+        
 
+    /**.................................................................................................. */
+    useEffect(()=>{
 
-    /**Sets the product of this page to the what the user select/chooses from the home page........*/
+        // setProduct({})
+
+    },[])//id here
+    /**Sets the product of this page to the what the user select/chooses from the home page..............*/
     useEffect(()=>{
         const getProduct = ()=>{
 
             axios.get(`https://9s5gflpjlh.execute-api.us-east-1.amazonaws.com/product/${id}`).then((res)=>{
 
-                console.log(res.data.product)
                 setProduct(res.data.product)
 
             }).catch((err)=>{
                 console.log('Error Occured: ' + err)
             })
-
-
         }
 
         getProduct()
         
-    },[])
-    /////////////////////////////////////////////////////////////////////////////////////
+    },[id])
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     
 
@@ -79,33 +85,38 @@ const ProductDetailsScreen:React.FC<ProductDetailsProp> = ({navigation, route})=
 
                 if (cartItems?.length){
 
-                    const ItemAvailableInCart = cartItems.find(item => item.key.trim() === _id.trim() ) //Checking if an item/product is available in the cart
+                    const ItemAvailableInCart = cartItems.find(item => item.key.trim() === _id.trim() ) //Checking if item/product is available in the cart
                     
 
-                    /** Temporarily deletes item if found available in the cart...................................*/
+                    /** Temporarily deletes product if found available in the cart...................................*/
                     if (ItemAvailableInCart){
-                        console.log('item available')
                         const itemAvailableInCart_Index = cartItems.findIndex(item => item.key.trim() === _id.trim())//Gets the index of the available item 
 
                         cartItems.splice(itemAvailableInCart_Index, 1) //Removes the item from the cart
                         
                         
                     }
-                    /**............................................................................................. */
+                    /**............................................................................................ */
 
-
-
-                    /**Adds product items into the cart......................... */
+                    
+                    
+                    /**Adds product items into the cart................................. */
                     const allCartItems = [...cartItems, obj] //Concating the product to other items in the cart
 
                     await AsyncStorage.setItem('CartItems', JSON.stringify(allCartItems))//Updates the cart with current product item
-                    console.log('added to cart again ' + allCartItems.length)
+
+                    console.log(allCartItems.length + ' from product')
+
+                    dispatch(addItemToCart(allCartItems))
                     
                 }
                 else{
                     /**Sets the first item/product into the cart */
-                    await AsyncStorage.setItem('CartItems', JSON.stringify([obj])) 
-                    console.log('added to the cart ' + 1)
+                    const item = [obj]
+                    await AsyncStorage.setItem('CartItems', JSON.stringify(item)) 
+                    dispatch(addItemToCart(item))
+
+
                 }
                 
 
@@ -116,16 +127,11 @@ const ProductDetailsScreen:React.FC<ProductDetailsProp> = ({navigation, route})=
 
 
         }
-
-        else{
-            Alert.alert("Couldn't add to cart, Check your network connectivity")
-        }
-
     
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    
+
 
 
     if (!product.name){
@@ -135,10 +141,11 @@ const ProductDetailsScreen:React.FC<ProductDetailsProp> = ({navigation, route})=
     return (
         <View style = {AllScreenStyles.body}>
             <View style = {{position:"relative", height:'100%'}}>
-                <Header screenName="Details" previousScreen={previousScreen} id = {null} />{/**Header.....................*/}
+                <Header screenName="Details" previousScreen={previousScreen} id = {id} />{/**Header.....................*/}
+
 
                 <ScrollView style = {{height:"80%"}}>{/**Body.................*/}
-                    <View style = {ProductDetailsSCreenStyles.firstSection}>
+                    <View style = {ProductDetailsScreenStyles.firstSection}>
                         <View>
                             <Image source={{uri:`data:image/jpeg;base64,${product.image.data}`}}
                             style = {{height:"100%"}}
@@ -147,41 +154,45 @@ const ProductDetailsScreen:React.FC<ProductDetailsProp> = ({navigation, route})=
                         </View>
                     </View>
 
-                    <View style = {ProductDetailsSCreenStyles.secondSection}>
+                    <View style = {ProductDetailsScreenStyles.secondSection}>
                         <View>
-                                <Text style = {{color:'#333'}}>{product.name}</Text>
                         </View>
                     </View>
 
-                    <View style = {ProductDetailsSCreenStyles.thirdSection}>
-                        <View>
+                    <View style = {ProductDetailsScreenStyles.thirdSection}>
+                        <View style = {ProductDetailsScreenStyles.thirdSectionName}>
+                            <Text style = {ProductDetailsScreenStyles.thirdSectionNameTxt}>{product.name}</Text>
+                        </View>
 
+                        <View style = {ProductDetailsScreenStyles.thirdSectionPrice}>
+                            <Text style = {ProductDetailsScreenStyles.thirdSectionPriceTxt}>N {product.price}</Text>
                         </View>
                     </View>
+
                 </ScrollView>
 
-                <View style = {ProductDetailsSCreenStyles.forthSection}>
-                    <View style = {[ProductDetailsSCreenStyles.forthSectionInner, {display:forthSectionInner2_display ?  'none': 'flex'  }]}>
-                        <TouchableOpacity style = {ProductDetailsSCreenStyles.forthSectionLeft} onPress={async()=>{ await AsyncStorage.removeItem('CartItems'); console.log("cleared")} }>
+                <View style = {ProductDetailsScreenStyles.forthSection}>
+                    <View style = {[ProductDetailsScreenStyles.forthSectionInner, {display:forthSectionInner2_display ?  'none': 'flex'  }]}>
+                        <TouchableOpacity style = {ProductDetailsScreenStyles.forthSectionLeft} onPress={async()=>{ await AsyncStorage.removeItem('CartItems'); console.log("cleared")} }>
                             <View>
-                                <Text style = {ProductDetailsSCreenStyles.forthSectionLeftTxt}>Try Out</Text>
+                                <Text style = {ProductDetailsScreenStyles.forthSectionLeftTxt}>Try Out</Text>
                             </View>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style = {ProductDetailsSCreenStyles.forthSectionRight} onPress={handleAddToCart}>
-                            <View style = {ProductDetailsSCreenStyles.forthSectionRightInner}>
+                        <TouchableOpacity style = {ProductDetailsScreenStyles.forthSectionRight} onPress={handleAddToCart}>
+                            <View style = {ProductDetailsScreenStyles.forthSectionRightInner}>
                                 <View><FontAwesomeIcon icon={faCartPlus} size={25} color="#fff"/></View>
-                                <View><Text style = {ProductDetailsSCreenStyles.forthSectionRightInnerTxt}>ADD TO CART</Text></View>
+                                <View><Text style = {ProductDetailsScreenStyles.forthSectionRightInnerTxt}>ADD TO CART</Text></View>
                             </View>
                         </TouchableOpacity>
                     </View>
 
-                    <View style = {[ProductDetailsSCreenStyles.forthSectionInner2, {display:forthSectionInner2_display ? 'flex' : 'none'}]}>{/**After Add to cart Container */}
-                        <TouchableOpacity style = {ProductDetailsSCreenStyles.forthSectionInner2Left} onPress={()=> setForthSectionInner2_display(false)}>
-                            <View><Text style = {ProductDetailsSCreenStyles.forthSectionInner2LeftTxt}>Keep Shopping</Text></View>
+                    <View style = {[ProductDetailsScreenStyles.forthSectionInner2, {display:forthSectionInner2_display ? 'flex' : 'none'}]}>{/**After Add to cart Container */}
+                        <TouchableOpacity style = {ProductDetailsScreenStyles.forthSectionInner2Left} onPress={()=> setForthSectionInner2_display(false)}>
+                            <View><Text style = {ProductDetailsScreenStyles.forthSectionInner2LeftTxt}>Keep Shopping</Text></View>
                         </TouchableOpacity>
-                        <TouchableOpacity style = {ProductDetailsSCreenStyles.forthSectionInner2Right} onPress={()=> navigation.navigate('Cart',{id})}>
-                            <View><Text style = {ProductDetailsSCreenStyles.forthSectionInner2RightTxt}>Proceed To Checkout</Text></View>
+                        <TouchableOpacity style = {ProductDetailsScreenStyles.forthSectionInner2Right} onPress={()=> navigation.navigate('Cart',{id})}>
+                            <View><Text style = {ProductDetailsScreenStyles.forthSectionInner2RightTxt}>Proceed To Checkout</Text></View>
                         </TouchableOpacity>
                     </View>
 

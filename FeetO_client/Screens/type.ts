@@ -1,8 +1,8 @@
 export type RootStackParamList = {
     Home: undefined;
     productDetails: undefined;
-    Cart:undefined;
+    Cart:any;
     previousScreenName:any
     Account:any
-    SearchItemsScreen:any
+    SearchItems:any
     };

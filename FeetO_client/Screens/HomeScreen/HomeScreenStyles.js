@@ -27,6 +27,7 @@ const HomeScreenStyles = StyleSheet.create({
         backgroundColor:appPrimaryColor,
         marginHorizontal:10,
         borderRadius:6,
+        overflow:'hidden'
      },
 
      advertListIndicatorContainer:{

@@ -8,22 +8,27 @@ import axios from "axios"
 import { getAllItems, getPreviousScreen } from "../AllScreenFuntions"
 import HomeScreenStyles from "../HomeScreen/HomeScreenStyles"
 import { useNavigationState } from "@react-navigation/native"
+import Loader from "../Loader/Loader"
 
 
 interface SearchItemsScreenProps{
     navigation:any
+    route:any
 }
 
 
+
 const fontAwesomeIconSize = 22
-const SearchItemsScreen:React.FC<SearchItemsScreenProps> = ({navigation})=>{
+const SearchItemsScreen:React.FC<SearchItemsScreenProps> = ({navigation, route})=>{
     const previousScreen = getPreviousScreen(useNavigationState)
-    
+    const { id } = route.params ? route.params : ""
+
     
     const numColumnsId = 3
     const [searchedItems, setSearchedItems] = useState([])
     const [searchInputText, setSearchInputText] = useState('')
     const [isSearched, setIsSearched] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
 
     /**Focusing on the search input.............................................. */
@@ -45,26 +50,30 @@ const SearchItemsScreen:React.FC<SearchItemsScreenProps> = ({navigation})=>{
         }, []);
     /////////////////////////////////////////////////////////////////////////////
     
-
-
     
 
+    
     const handleSearchItems = async ()=>{
-        
+
             if (searchInputText.trim()){
 
                 try {
+                    setIsLoading(true)
+
 
                     /**Getting the the items data from the databse................................................................................ */
                     const allItems = await getAllItems('/')                   
                     //////////////////////////////////////////////////////////////////////////////////////
-    
+                    
                     
                     /**Filter all items based on search input text */
                     const filterSearchedItems = allItems.filter((item)=> item.name.toLowerCase().includes(searchInputText.toLowerCase()))
                     setSearchedItems(filterSearchedItems)
-    
+                    
+
+                    setIsLoading(false)
                     setIsSearched(true)
+
                 }
                 catch(err){
                     console.log(err)
@@ -75,6 +84,7 @@ const SearchItemsScreen:React.FC<SearchItemsScreenProps> = ({navigation})=>{
             else{
                 Alert.alert('Please enter a keyword')
             }
+            
     }
 
 
@@ -85,21 +95,25 @@ const SearchItemsScreen:React.FC<SearchItemsScreenProps> = ({navigation})=>{
 
         if (!searchInputText.trim()){
 
-            navigation.navigate(previousScreen)
+            navigation.navigate(previousScreen , {id})
         }
         
     }
     ////////////////////////////////////////////////////////////////////////
 
 
+    if(isLoading){
+
+        return <Loader />
+    }
     return(
         <View style = {AllScreenStyles.body}>
             <View style = {SearchItemsScreenStyles.header}>
                 <View style = {SearchItemsScreenStyles.headerInner}>
-                    <TouchableOpacity onPress={()=> navigation.navigate(previousScreen)}>
+                    <TouchableOpacity onPress={()=> navigation.navigate(previousScreen, {id})}>
                         <FontAwesomeIcon icon={faArrowLeft} size={fontAwesomeIconSize} style={AllScreenStyles.headerFonts} />
                     </TouchableOpacity>
-
+                    
                     <View style = {SearchItemsScreenStyles.headerInputCont}>
                         <TextInput style = {SearchItemsScreenStyles.headerInput}
                          placeholder="What are you looking for?" 
@@ -144,7 +158,7 @@ const SearchItemsScreen:React.FC<SearchItemsScreenProps> = ({navigation})=>{
                                 keyExtractor={(item)=> String(item.key)}
                                 renderItem={({item})=>(
     
-                                    <TouchableOpacity style = {HomeScreenStyles.productCard} onPress={()=> navigation.navigate('ProductDetails', {id:item.key})}>
+                                    <TouchableOpacity style = {HomeScreenStyles.productCard} onPress={()=> navigation.navigate('ProductDetails', {id:item._id})}>
                                         <View style = {HomeScreenStyles.productCardImg}>
                                             <Image source={{ uri: `data:image/jpeg;base64,${item.image.data}`}}
                                                 style = {{height:'100%'}}

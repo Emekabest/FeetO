@@ -43,7 +43,6 @@ const HomeScreen:React.FC<HomeScreenProps> = ({navigation})=> {
             if (!Items_db.length){
                 setItems_db(allItems)
             }
-            console.log(allItems.length)
 
         }
         getItems()
@@ -96,22 +95,26 @@ const slideWidth = width * 0.8
 const slides = [
     {
         key:1,
-        text:'Slide 1'
+        text:'Slide 1',
+        image:'https://wallpaperaccess.com/full/680070.jpg'
     },
 
     {
         key:2,
-        text:'Slide 2'
+        text:'Slide 2',
+        image:'https://wallpaperaccess.com/full/680096.jpg'
     },
 
     {
         key:3,
-        text:'Slide 3'
+        text:'Slide 3',
+        image:'https://img.freepik.com/premium-photo/pair-blue-vintage-roller-skates-with-white-laces-red-wheels-skates-are-hanging-mint-green-wall-background-is-out-focus_36682-178209.jpg?size=626&ext=jpg&ga=GA1.1.1388333876.1723536058&semt=ais_hybrid'
     },
 
     {
         key:4,
-        text:'Slide 4'
+        text:'Slide 4',
+        image:'https://wallpaperaccess.com/full/680116.jpg'
     },
 
 ]
@@ -196,10 +199,9 @@ const handleScroll = (event:any)=>{
       }
 
 
-    console.log(newIndex, currentIndex)
 
 }
-////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -220,7 +222,6 @@ return (
                     
                     {/**Animation.................................................... */}
                         <Animated.ScrollView
-                            // contentContainerStyle = {{paddingHorizontal:2 }}
                             ref={scrollViewRef}
                             horizontal
                             showsHorizontalScrollIndicator = {false}
@@ -237,7 +238,9 @@ return (
 
                             {
                                 slides.map((slide)=>(
-                                    <View key={slide.key} style = {HomeScreenStyles.advertList}></View>
+                                    <View key={slide.key} style = {HomeScreenStyles.advertList}>
+                                        <Image source={{uri: slide.image}} style = {{height:"100%", width:"100%"}}/>
+                                    </View>
                                 )
                                 )
                             }
@@ -298,6 +301,7 @@ return (
                 </View>
             </View>
         </ScrollView>
+
 
     <BottomTab />
     </View>

@@ -16,6 +16,8 @@ import AllOrdersScreen from './Screens/AdminScreen/AllOrdersScreen';
 import AddProdutAdminScreen from './Screens/AdminScreen/AddProductScreen';
 import SearchItemsScreen from './Screens/SearchItemsScreen/SearchItemsScreen';
 /**................................................................ */
+import { Provider } from 'react-redux';
+import store from './Screens/Redux/Store';
 
 
 
@@ -27,6 +29,7 @@ function App(): React.JSX.Element {
     <NavigationContainer>
       <StatusBar barStyle={'light-content'}/>
 
+    <Provider store={store}>
       <SafeAreaView style = {{height:'100%'}}>
         <Stack.Navigator>
             <Stack.Screen name="Home" component={HomeScreen} options={{headerShown:false}}/>
@@ -44,6 +47,7 @@ function App(): React.JSX.Element {
 
         </Stack.Navigator>
       </SafeAreaView>
+    </Provider>
     </NavigationContainer>
   );
 }

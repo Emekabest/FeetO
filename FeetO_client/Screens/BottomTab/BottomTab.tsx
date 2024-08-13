@@ -18,7 +18,7 @@ interface BottomTabProp{
 }
 
 
-const fontAwesomeIconSize = 22
+const fontAwesomeIconSize = 16
 const appSecondaryColor2 = "#333"
 
 const BottomTab:React.FC<BottomTabProp> = ()=>{
@@ -32,8 +32,7 @@ const BottomTab:React.FC<BottomTabProp> = ()=>{
     const [bottomTab3rdChild_color, setBottomTab3rdChild_color] = useState(appSecondaryColor2)
     const [bottomTab4thChild_color, setBottomTab4thChild_color] = useState(appSecondaryColor2)
 
-
-
+    
     const routes = useNavigationState((state: { routes: any; }) => state.routes);
     const currentScreen = routes[routes.length -1]
 
