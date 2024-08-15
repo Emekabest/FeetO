@@ -134,7 +134,7 @@ const CartScreen:React.FC<CartScreenProp>= ({navigation, route})=>{
                                     keyExtractor={(item)=> String(item.key)}
                                     renderItem={({item})=>(
 
-                                    <TouchableOpacity style ={CartScreenStyles.itemContiner}>{/**Item.................. */}
+                                    <TouchableOpacity style ={CartScreenStyles.itemContiner} onPress={()=> navigation.navigate('ProductDetails', {id:item.key})}>{/**Item.................. */}
                                         <View style = {CartScreenStyles.itemContinerInner}>
                                             <View style = {CartScreenStyles.itemImage}>{/**Item Image Container... */}
                                             <View>
@@ -165,7 +165,7 @@ const CartScreen:React.FC<CartScreenProp>= ({navigation, route})=>{
                                                 </View>
                                             </View>
                                         </View>
-
+                                            
 
                                         <TouchableOpacity style = {CartScreenStyles.deleteCont} id={item.key} onPress={()=> handleDelete(item.key)}>{/**Remove Item Button*/}
                                             <View>
