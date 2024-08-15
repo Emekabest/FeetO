@@ -105,7 +105,6 @@ const ProductDetailsScreen:React.FC<ProductDetailsProp> = ({navigation, route})=
 
                     await AsyncStorage.setItem('CartItems', JSON.stringify(allCartItems))//Updates the cart with current product item
 
-                    console.log(allCartItems.length + ' from product')
 
                     dispatch(addItemToCart(allCartItems))
                     
