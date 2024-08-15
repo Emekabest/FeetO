@@ -22,22 +22,24 @@ interface CheckoutProp{
 
 const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
     const CartItems = []
+    const recentProductDetailsID = route.params ? route.params.id : ''
+    const totalItemPrice = route.params ? route.params.totalItemPrice : ''
 
-    const previousScreen = getPreviousScreen(useNavigationState)
     const [address, setAddress] = useState('')
+    const [currentAddress, setCurrentAddress] = useState('')
     const [phoneNumber, setPhoneNumber] = useState('')
     const [cartItemsDemo, setCartItemsDemo] = useState([])
     const [user, setUser] = useState('')
+
 
     const [addressInputCont_display, setAddressInputCont_display] = useState('none')
     const [paymentBtnOverlay_display, setPaymentBtnOverlay_display] = useState('flex')
 
 
-    const recentProductDetailsID = route.params ? route.params.id : ''
-    const totalItemPrice = route.params ? route.params.totalItemPrice : ''
+    const previousScreen = getPreviousScreen(useNavigationState)
 
 
-    /**Setting the payment button display status..................... */
+    /**Setting the payment button default display status..................... */
     useEffect(()=>{
 
         if (address && phoneNumber){
@@ -45,11 +47,11 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
         }
         else{
             setPaymentBtnOverlay_display('flex')
-    
+            
         }
 
     }, [address, phoneNumber])
-    /////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
 
 
 
@@ -62,7 +64,7 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
             
             if (!cartItemsDemo.length){
                 setCartItemsDemo(items)
-
+                
             }
 
             setUser(user)
@@ -89,11 +91,38 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
 
     })
 
-    // console.log(CartItems)
+
+    /**Handles when a user attemps to edit address */
+    const handleAddressEdit = ()=>{
+
+        
+        setCurrentAddress(address)
+        setAddressInputCont_display('flex')
+    }
+    /**////////////////////////////////////////////////// */
 
 
 
-    
+
+    /**Handles when a user attempts to discard the changes made on the address */
+    const handleCancelEdit = ()=>{
+
+        
+        setAddress(currentAddress)
+        setAddressInputCont_display('none')
+        
+    }
+    /////////////////////////////////////////////////////////
+
+
+    const handleSaveAddress = ()=>{
+
+        setAddressInputCont_display('none')
+    }
+
+
+
+    /**Handles when the customer proceeds to payment */
     const handleMoveToPaymentScreen = ()=>{
         const customerCheckoutInfo = {
             items:JSON.stringify(CartItems),
@@ -112,6 +141,8 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
         navigation.navigate('Payment', {customerCheckoutInfo})
 
     }
+    /**//////////////////////////////////////////////////////////////// */
+
 
 
 
@@ -120,8 +151,7 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
         <View style = {AllScreenStyles.body}>
             <Header screenName="Checkout" previousScreen={previousScreen} id = {recentProductDetailsID} />
 
-            {/* <View style = {{height:'100%', backgroundColor:'blue'}}> */}
-                {/* <ScrollView style = {{height:'100%', backgroundColor:'green',  position:'relative'}}> */}
+
 
                 <ScrollView style = {CheckoutScreenStyles.checkoutBody}>{/**Body..................... */}
                     <View>
@@ -179,7 +209,7 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
                                         <Text style = {CheckoutScreenStyles.deliveryAddressTxt}>{address}</Text>
                                     </View>
                                     
-                                    <TouchableOpacity style = {CheckoutScreenStyles.deliveryAddressEdit} onPress={()=> setAddressInputCont_display('flex')}>
+                                    <TouchableOpacity style = {CheckoutScreenStyles.deliveryAddressEdit} onPress={handleAddressEdit}>
                                         <FontAwesomeIcon icon={faEdit} size={20} />
                                     </TouchableOpacity>
                                 </View>
@@ -205,15 +235,15 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
                         </View>
                     </ScrollView>
 
-
-
+                                
+                    
                     {/**Address Input Popup container......................................................................... */}
                     <View style = {[CheckoutScreenStyles.deliveryAddressInputCont, {display: addressInputCont_display}]}>
-                        <TouchableOpacity style={{position:'absolute', top:10, right:10}}>
+                        <TouchableOpacity style={{position:'absolute', top:10, right:10}} onPress={handleCancelEdit}>
                             <FontAwesomeIcon icon={faTimes}  color="#333" size={30}/>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={{position:'absolute', bottom:50, right:'50%'}} onPress={()=> setAddressInputCont_display('none')}>
+                        <TouchableOpacity style={{position:'absolute', bottom:50, right:'50%'}} onPress={handleSaveAddress}>
                             <FontAwesomeIcon icon={faFloppyDisk}  color="#333" size={50}/>
                             <Text style = {{color:'#333'}}>Save</Text>
                         </TouchableOpacity>

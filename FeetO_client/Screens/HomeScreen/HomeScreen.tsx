@@ -214,9 +214,11 @@ return (
     <View style = {AllScreenStyles.body}>
         <Header screenName = "Home" previousScreen="None"/>{/**Header............................................. */}
         
-
-        <ScrollView>{/**Body............ */}
-            <View style = {HomeScreenStyles.mainAdvertContainer} >{/**Advert Slider */}
+        <View>
+            
+        </View>
+        <ScrollView style = {{marginBottom:60, height:'100%'}}>{/**Body............ */}
+            <View style = {HomeScreenStyles.mainAdvertContainer}>{/**Advert Slider */}
                     <View style = {HomeScreenStyles.advertULContainer}>
 
                     

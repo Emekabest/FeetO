@@ -26,9 +26,9 @@ const Header:React.FC<HeaderProps> = ({screenName, previousScreen, id})=>{
 
     const [cartItemsLength, setCartItemsLength] = useState(0)
 
-    
-    
 
+    
+    
     const cartItems = useSelector((state)=> state.cart.items)
         /** */
         useEffect(()=>{
@@ -39,8 +39,8 @@ const Header:React.FC<HeaderProps> = ({screenName, previousScreen, id})=>{
             }
             getCartLength()
         },[cartItems])
-    
-
+        
+        
     
     
     switch(screenName){
@@ -76,7 +76,7 @@ const Header:React.FC<HeaderProps> = ({screenName, previousScreen, id})=>{
                 <View style = {AllScreenStyles.Header}>
                     <View style = {AllScreenStyles.header2Inner}>
                         <View style = {AllScreenStyles.headerLeftSection}>
-                            <TouchableOpacity style ={AllScreenStyles.headerFontsCont} onPress={()=>navigation.navigate(previousScreen, {id})}>
+                            <TouchableOpacity style ={AllScreenStyles.headerFontsCont} onPress={()=>(navigation.navigate(previousScreen, {id} ), console.log('clicked'))}>
                                 <FontAwesomeIcon icon={faArrowLeft} size={fontAwesomeIconSize} style={AllScreenStyles.headerFonts}/>
                             </TouchableOpacity>
                             <View><Text style = {AllScreenStyles.headerLeftSectionTxt}>{screenName}</Text></View>

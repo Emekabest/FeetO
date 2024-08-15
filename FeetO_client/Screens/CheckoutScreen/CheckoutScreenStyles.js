@@ -98,7 +98,7 @@ const CheckoutScreenStyles = StyleSheet.create({
     deliveryAddressInputCont:{
         height:'100%',
         width:'100%',
-        backgroundColor:'#ececec',
+        backgroundColor:'lightgray',
         position:'absolute',
         zIndex:1,
         alignItems:'center',

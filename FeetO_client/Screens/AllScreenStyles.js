@@ -148,7 +148,7 @@ loaderMainContInner:{
         backgroundColor:"#fff",
         position:'absolute',
         bottom:0,
-        width:'100%'
+        width:'100%',
    },
 
    BottomTabInner:{
@@ -161,7 +161,7 @@ loaderMainContInner:{
    BottomTabInnerLi:{
     display:'flex',
     alignItems:'center',
-    padding:5,
+    paddingVertical:10,
    },
 
    BottonTabInnerTxt:{
