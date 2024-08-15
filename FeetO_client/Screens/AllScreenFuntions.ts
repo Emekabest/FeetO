@@ -37,4 +37,37 @@ const getAllItems = async (route:string)=>{
 
 
 
-export {getPreviousScreen, getAllItems, appPrimaryColor}
+
+/**.................................................................................................... */
+const formatPrice = (totalPrice)=>{
+
+    console.log(typeof(totalPrice))
+
+    const priceStr = String(totalPrice)
+    let index = 0;
+
+    if(priceStr.length > 3 && priceStr.length < 5){
+        index = 1
+    }
+    else if (priceStr.length > 4 && priceStr.length < 6){
+        index = 2
+    }
+    else if (priceStr.length > 5 && priceStr.length < 7  ){
+        index = 3
+    }
+    else{
+        let formattedPrice =  priceStr
+        return formattedPrice
+    }
+
+    let formattedPrice =  priceStr.slice(0, index) + ',' + priceStr.slice(index)
+
+    return formattedPrice
+
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+export {getPreviousScreen, getAllItems, formatPrice, appPrimaryColor}

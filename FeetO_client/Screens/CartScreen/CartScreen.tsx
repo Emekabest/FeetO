@@ -3,7 +3,7 @@ import Header from "../Header/Header"
 import AllScreenStyles from "../AllScreenStyles"
 import CartScreenStyles from "./CartScreenStyles"
 import { useNavigationState } from "@react-navigation/native"
-import { getPreviousScreen } from "../AllScreenFuntions"
+import { formatPrice, getPreviousScreen } from "../AllScreenFuntions"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons"
 import { useEffect, useState } from "react"
@@ -190,7 +190,7 @@ const CartScreen:React.FC<CartScreenProp>= ({navigation, route})=>{
                         <View style = {CartScreenStyles.checkoutContainer}>
                             <View style = {CartScreenStyles.checkoutContainerInner}>
                                 <TouchableOpacity style = {CartScreenStyles.checkoutBtn} onPress={handleCheckout}>
-                                    <Text style = {CartScreenStyles.checkoutBtnTxt}>CHECKOUT(N{totalItemPrice})</Text>
+                                    <Text style = {CartScreenStyles.checkoutBtnTxt}>CHECKOUT(N{formatPrice(totalItemPrice)})</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>

@@ -15,7 +15,7 @@ import AdminScreen from './Screens/AdminScreen/AdminScreen';
 import AllOrdersScreen from './Screens/AdminScreen/AllOrdersScreen';
 import AddProdutAdminScreen from './Screens/AdminScreen/AddProductScreen';
 import SearchItemsScreen from './Screens/SearchItemsScreen/SearchItemsScreen';
-/**................................................................ */
+/**................................................................... */
 import { Provider } from 'react-redux';
 import store, {persistor} from './Screens/Redux/Store';
 import { PersistGate } from 'redux-persist/integration/react';

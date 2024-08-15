@@ -4,14 +4,15 @@ import Header from "../Header/Header"
 import CheckoutScreenStyles from "./CheckoutScreenStyles"
 import CartScreenStyles from "../CartScreen/CartScreenStyles"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
-import { faCancel, faCreditCard, faEdit, faFloppyDisk, faTimes } from "@fortawesome/free-solid-svg-icons"
+import { faCancel, faCreditCard, faEdit, faFloppyDisk, faSave, faTimes } from "@fortawesome/free-solid-svg-icons"
 import { useNavigationState } from "@react-navigation/native"
-import { getPreviousScreen } from "../AllScreenFuntions"
+import { formatPrice, getPreviousScreen } from "../AllScreenFuntions"
 import { Paystack } from "react-native-paystack-webview"
 import { useEffect, useState } from "react"
 import { appPrimaryColor } from "../AllScreenFuntions"
 import { height } from "@fortawesome/free-solid-svg-icons/fa0"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import AlertBox from "../AlertBox/AlertBox"
 
 
 interface CheckoutProp{
@@ -34,6 +35,7 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
 
     const [addressInputCont_display, setAddressInputCont_display] = useState('none')
     const [paymentBtnOverlay_display, setPaymentBtnOverlay_display] = useState('flex')
+    const [componentAlertBox_display, setComponentAlertBox_display] = useState('none')
 
 
     const previousScreen = getPreviousScreen(useNavigationState)
@@ -103,19 +105,21 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
 
 
 
-
     /**Handles when a user attempts to discard the changes made on the address */
     const handleCancelEdit = ()=>{
 
-        
+
+
         setAddress(currentAddress)
         setAddressInputCont_display('none')
+        setComponentAlertBox_display('none')
         
     }
     /////////////////////////////////////////////////////////
 
 
     const handleSaveAddress = ()=>{
+
 
         setAddressInputCont_display('none')
     }
@@ -146,14 +150,43 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
 
 
 
+    /**AddressInput AlertBox..........................................................................................
+     * ...............................................................................................................
+     */
+    const ComponentAlertBox = ()=>{
+
+
+        return (
+            <View style = {[AllScreenStyles.AlertBoxBody, {display:componentAlertBox_display}]}>
+            <View>
+
+                <View style = {AllScreenStyles.AlertBoxCont}>{/**Box */}
+                    <View style = {AllScreenStyles.AlertBoxContInner}>
+                        <View style = {AllScreenStyles.TextSection}>
+                            <Text style = {AllScreenStyles.TextSectionTxt}>Are you sure you want to Discard changes?</Text>
+                        </View>
+
+                        <View style = {AllScreenStyles.ButtonSection}>
+                            <TouchableOpacity onPress={handleCancelEdit} style = {AllScreenStyles.ButtonSectionLeft}><Text style = {{color:'#333', fontWeight:'bold'}}>Yes</Text></TouchableOpacity>
+                            <TouchableOpacity onPress={()=> setComponentAlertBox_display('none')} style = {AllScreenStyles.ButtonSectionRight}><Text style = {{color:'#333', fontWeight:'bold'}}>No</Text></TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+
+            </View>
+        </View>
+        )
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
     return (
         <View style = {AllScreenStyles.body}>
             <Header screenName="Checkout" previousScreen={previousScreen} id = {recentProductDetailsID} />
 
 
-
-                <ScrollView style = {CheckoutScreenStyles.checkoutBody}>{/**Body..................... */}
+                <ScrollView style = {CheckoutScreenStyles.checkoutBody}>{/**Body.................. */}
                     <View>
                         <View>
 
@@ -163,7 +196,7 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
                                         <Text style = {CheckoutScreenStyles.paymentSummaryContLiInnerLeftTxt}>SubTotal</Text>
                                     </View>
                                     <View style = {CheckoutScreenStyles.paymentSummaryContLiInnerRight}>
-                                        <Text style = {CheckoutScreenStyles.paymentSummaryContLiInnerRightTxt}>N{totalItemPrice}</Text>
+                                        <Text style = {CheckoutScreenStyles.paymentSummaryContLiInnerRightTxt}>N{formatPrice(totalItemPrice)}</Text>
                                     </View>
                                 </View>
 
@@ -172,7 +205,7 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
                                         <Text style = {CheckoutScreenStyles.paymentSummaryContLiInnerLeftTxt}>DeliveryCost</Text>
                                     </View>
                                     <View style = {CheckoutScreenStyles.paymentSummaryContLiInnerRight}>
-                                        <Text style = {CheckoutScreenStyles.paymentSummaryContLiInnerRightTxt}>N500</Text>
+                                        <Text style = {CheckoutScreenStyles.paymentSummaryContLiInnerRightTxt}>N0</Text>
                                     </View>
                                 </View>
 
@@ -190,7 +223,7 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
                                         <Text style = {CheckoutScreenStyles.paymentSummaryContLiInnerLeftTxt}>Total</Text>
                                     </View>
                                     <View style = {CheckoutScreenStyles.paymentSummaryContLiInnerRight}>
-                                        <Text style = {[CheckoutScreenStyles.paymentSummaryContLiInnerRightTxt, {color:appPrimaryColor}]}>N{totalItemPrice}</Text>
+                                        <Text style = {[CheckoutScreenStyles.paymentSummaryContLiInnerRightTxt, {color:appPrimaryColor}]}>N{formatPrice(totalItemPrice)}</Text>
                                     </View>
                                 </View>
                             </View>
@@ -214,9 +247,9 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
                                     </TouchableOpacity>
                                 </View>
                             </View>
-                            {/**...................................................................................................... */}
+                            {/**........................................................................................................ */}
 
-
+                            
                             <View style = {CheckoutScreenStyles.phoneNumCont}>
                                 <View>
                                     <View style = {CheckoutScreenStyles.deliveryAddressContHeading}>
@@ -224,27 +257,25 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
                                             <Text style = {{color:appPrimaryColor, fontSize:10}}>please ensure you enter a valid phone number</Text>
                                     </View>
                                     <View>
-                                            <TextInput style = {CheckoutScreenStyles.phoneNumInput} value={phoneNumber} onChangeText={setPhoneNumber}/>
+                                            <TextInput style = {CheckoutScreenStyles.phoneNumInput} keyboardType='numeric' value={phoneNumber} onChangeText={setPhoneNumber}/>
                                             <Text style = {CheckoutScreenStyles.phoneNumInputErrMsg}></Text>
                                     </View>
                                 </View>
-                            </View>
-                                
+                            </View> 
                         </View>
-
                         </View>
                     </ScrollView>
 
-                                
+                    
                     
                     {/**Address Input Popup container......................................................................... */}
                     <View style = {[CheckoutScreenStyles.deliveryAddressInputCont, {display: addressInputCont_display}]}>
-                        <TouchableOpacity style={{position:'absolute', top:10, right:10}} onPress={handleCancelEdit}>
+                        <TouchableOpacity style={{position:'absolute', top:10, right:10}} onPress={()=> setComponentAlertBox_display('flex')}>
                             <FontAwesomeIcon icon={faTimes}  color="#333" size={30}/>
                         </TouchableOpacity>
-
-                        <TouchableOpacity style={{position:'absolute', bottom:50, right:'50%'}} onPress={handleSaveAddress}>
-                            <FontAwesomeIcon icon={faFloppyDisk}  color="#333" size={50}/>
+                        
+                        <TouchableOpacity style={{position:'absolute', bottom:50, right:'45%'}} onPress={handleSaveAddress}>
+                            <FontAwesomeIcon icon={faSave}  color="#333" size={30}/>
                             <Text style = {{color:'#333'}}>Save</Text>
                         </TouchableOpacity>
                             
@@ -254,6 +285,9 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
                                 />
                     </View>
                     {/**........................................................................................................... */}
+
+                    
+                      <ComponentAlertBox />          
 
 
                 
