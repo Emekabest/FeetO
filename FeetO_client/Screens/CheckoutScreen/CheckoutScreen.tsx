@@ -156,6 +156,8 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
     const ComponentAlertBox = ()=>{
 
 
+
+        
         return (
             <View style = {[AllScreenStyles.AlertBoxBody, {display:componentAlertBox_display}]}>
             <View>

@@ -15,11 +15,11 @@ import AdminScreen from './Screens/AdminScreen/AdminScreen';
 import AllOrdersScreen from './Screens/AdminScreen/AllOrdersScreen';
 import AddProdutAdminScreen from './Screens/AdminScreen/AddProductScreen';
 import SearchItemsScreen from './Screens/SearchItemsScreen/SearchItemsScreen';
+import ProfileScreen from './Screens/ProfileScreen/ProfileScreen';
 /**................................................................... */
 import { Provider } from 'react-redux';
 import store, {persistor} from './Screens/Redux/Store';
 import { PersistGate } from 'redux-persist/integration/react';
-import AlertBox from './Screens/AlertBox/AlertBox';
 
 
 const Stack = createNativeStackNavigator();
@@ -30,7 +30,6 @@ function App(): React.JSX.Element {
     <NavigationContainer>
       <StatusBar barStyle={'light-content'}/>
 
-      <AlertBox text = 'Good'/>
       <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <SafeAreaView style = {{height:'100%'}}>
@@ -47,6 +46,7 @@ function App(): React.JSX.Element {
             <Stack.Screen name="AllOrders" component={AllOrdersScreen} options={{headerShown:false}}/>
             <Stack.Screen name="AddProductScreen" component={AddProdutAdminScreen} options={{headerShown:false}}/>
             <Stack.Screen name="SearchItems" component={SearchItemsScreen} options={{headerShown:false}}/>
+            <Stack.Screen name="Profile" component={ProfileScreen} options={{headerShown:false}}/>
             
         </Stack.Navigator>
       </SafeAreaView>

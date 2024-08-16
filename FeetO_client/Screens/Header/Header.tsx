@@ -83,12 +83,12 @@ const Header:React.FC<HeaderProps> = ({screenName, previousScreen, id})=>{
                         </View>
                         
                         <View style = {AllScreenStyles.headerRightSection}>
-                            <TouchableOpacity onPress={()=> navigation.navigate('SearchItems', {id})}>{screenName != 'Cart' && screenName != 'Checkout' && screenName != 'Register' && screenName != 'Login' && screenName != 'Admin' && screenName != 'AllOrders' && screenName != 'Login' && screenName != 'Admin' && screenName != 'AddProduct' ? <FontAwesomeIcon icon = {faSearch} size={fontAwesomeIconSize} style={AllScreenStyles.headerFonts}/> : null }</TouchableOpacity>
-                                {screenName !='Cart' && screenName != 'Checkout' && screenName != 'Register' && screenName != 'Login' && screenName != 'Admin' && screenName != 'AllOrders' && screenName != 'AddProduct' ?
+                            <TouchableOpacity onPress={()=> navigation.navigate('SearchItems', {id})}>{screenName != 'Cart' && screenName != 'Checkout' && screenName != 'Register' && screenName != 'Login' && screenName != 'Admin' && screenName != 'AllOrders' && screenName != 'Login' && screenName != 'Admin' && screenName != 'AddProduct' && screenName != 'Profile' ? <FontAwesomeIcon icon = {faSearch} size={fontAwesomeIconSize} style={AllScreenStyles.headerFonts}/> : null }</TouchableOpacity>
+                                {screenName !='Cart' && screenName != 'Checkout' && screenName != 'Register' && screenName != 'Login' && screenName != 'Admin' && screenName != 'AllOrders' && screenName != 'AddProduct' && screenName != 'Profile' ?
 
                                 <View style = {AllScreenStyles.cartSection}>
                                     <TouchableOpacity onPress={()=> navigation.navigate('Cart', {id})}>
-                                        <FontAwesomeIcon icon = {faCartShopping} size={fontAwesomeIconSize} style={AllScreenStyles.headerFonts}/> 
+                                        <FontAwesomeIcon icon = {faCartShopping} size={fontAwesomeIconSize} style={AllScreenStyles.headerFonts}/>
                                     </TouchableOpacity>
 
                                     {/**Items Length indictor.......................... */}

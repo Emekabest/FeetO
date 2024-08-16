@@ -11,7 +11,7 @@ const AccountScreenStyles = StyleSheet.create({
     },
 
     TopSection:{
-        height:200,
+        minHeight:200,
         width:'100%',
         backgroundColor:'#fff',
         borderRadius:8,
@@ -25,7 +25,8 @@ const AccountScreenStyles = StyleSheet.create({
         borderColor:'#e1e1e1',
         borderRadius:5,
         justifyContent:'center',
-        paddingHorizontal:8
+        paddingHorizontal:8,
+        marginVertical:7,
     },
 
     TopSectionLiTxt:{

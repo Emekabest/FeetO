@@ -56,7 +56,13 @@ const AccountScreen:React.FC<AccountScreenProp> =  ({navigation})=>{
 
 
 
+                                <TouchableOpacity style = {AccountScreenStyles.TopSectionLi} onPress={()=> navigation.navigate('Profile')}>
+                                                <Text style = {AccountScreenStyles.TopSectionLiTxt}>Profile</Text>
+                                </TouchableOpacity>
 
+                                <TouchableOpacity style = {AccountScreenStyles.TopSectionLi}>
+                                                <Text style = {AccountScreenStyles.TopSectionLiTxt}>Orders</Text>
+                                </TouchableOpacity>
 
                                     {/**Admin Section................................ */}
                                     <View>
