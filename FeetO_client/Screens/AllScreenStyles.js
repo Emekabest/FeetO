@@ -2,7 +2,8 @@ import { Dimensions, StyleSheet } from "react-native";
 
 
 const screenWidth = Math.floor(Dimensions.get("window").width);
-console.log(screenWidth)
+const screenHeight = Math.floor(Dimensions.get("window").height);
+
 
 
 const appPrimaryColor = "#a12323"
@@ -18,7 +19,8 @@ const AllScreenStyles = StyleSheet.create({
     Header:{
         height:50,
         backgroundColor:"#333",
-        padding:6
+        padding:6,
+        zIndex:0
 
     },
     
@@ -152,22 +154,19 @@ loaderMainContInner:{
 
 
 /**AlertBox Styles Section........................... */
-
 AlertBoxBody:{
-    height:'100%',
+    height:screenHeight,
     width:'100%',
     position:'absolute',
     zIndex:1,
-    // opacity:0.4
     justifyContent:'center',
-    alignItems:'center'
+    alignItems:'center',
 },
 
 AlertBoxCont:{
     height:200,
     width:screenWidth / 1.5,
     backgroundColor:'#fff',
-    // borderWidth:0.5,
     borderColor:'#aaaaaa',
     elevation:7,
     borderRadius:8
@@ -196,11 +195,12 @@ TextSectionTxt:{
 
 ButtonSection:{
     height:'20%',
-    display:'flex',
-    flexDirection:'row',
     paddingTop:5
 },
 
+ButtonSectionInner:{
+    alignItems:'center'
+},
 
 ButtonSectionLeft:{
     flex:1,
@@ -219,6 +219,21 @@ ButtonSectionRight:{
     borderLeftColor:'#aaaaaa'
 
 
+},
+
+Button:{
+    backgroundColor:appPrimaryColor,
+    height:30,
+    width:'50%',
+    justifyContent:'center',
+    alignItems:'center',
+    borderRadius:6
+
+},
+
+ButtonTxt:{
+    color:'#fff',
+    fontWeight:'bold'
 },
 
 ////////////////////////////////////////////////////////////

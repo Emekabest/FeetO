@@ -3,6 +3,8 @@ import { Paystack } from "react-native-paystack-webview"
 import { Text } from "react-native-svg"
 import { appPrimaryColor } from "../AllScreenFuntions"
 import axios from "axios"
+import { useEffect, useState } from "react"
+import AlertBox from "../AlertBox/AlertBox"
 
 interface PaymentProp{
     navigation:any,
@@ -16,9 +18,11 @@ const PaymentScreen:React.FC<PaymentProp> = ({navigation, route})=>{
     const customerCheckoutInfo = route.params.customerCheckoutInfo
     const {items, totalItemPrice, user, address, phoneNumer } = customerCheckoutInfo
 
+    const [paymentSuccess, setPaymentSuccess] = useState(false)
 
 
-    /**Handles when the user has made a successfull payment........................................... */
+
+    /**Handles when the user has made a successfull payment........................................ */
     const handleSuccessfulPayment = (response:any)=>{
 
         const url = 'https://9s5gflpjlh.execute-api.us-east-1.amazonaws.com/orders'
@@ -26,8 +30,8 @@ const PaymentScreen:React.FC<PaymentProp> = ({navigation, route})=>{
 
 
             if (res.status === 200){
-
-                Alert.alert(res.data.msg)
+                
+                Alert.alert('Payment Status', 'Successful')
             }
             
 
@@ -35,13 +39,12 @@ const PaymentScreen:React.FC<PaymentProp> = ({navigation, route})=>{
         .catch((err)=>{
 
             console.log('Error: ' + err)
+
         })
 
-        
-        navigation.navigate('Home') 
-    
+        navigation.navigate('Home')
+
     }
-
     /////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -49,35 +52,36 @@ const PaymentScreen:React.FC<PaymentProp> = ({navigation, route})=>{
 
 
 
-    /**Paystack UI.......................................................................................................
+    /**Paystack UI....................................................................................
      * .......................
      */
-    const Payment = ()=>{
-
-        try {
-            
-             return(
-                <Paystack
-                    paystackKey="pk_test_1eb0b395f6ed12417b33d179002bcebe7e32dd47"
-                    amount={Number(totalItemPrice)}
-                    billingEmail={JSON.parse(user).email}
-                    activityIndicatorColor={appPrimaryColor}
-                    onSuccess={handleSuccessfulPayment}
-                    onCancel={()=> {Alert.alert('Payment Canceled'); navigation.navigate('Cart')}}
-                    autoStart = {true}
-                />
-        )
-
-        }
-        catch(err){
-
-            
-            return (
-                <View><Text>An Error Occured</Text></View>
+        const Payment = ()=>{
+    
+            try {
+                
+                    return(
+                    <Paystack
+                        paystackKey="pk_test_1eb0b395f6ed12417b33d179002bcebe7e32dd47"
+                        amount={Number(totalItemPrice)}
+                        billingEmail={JSON.parse(user).email}
+                        activityIndicatorColor={appPrimaryColor}
+                        onSuccess={handleSuccessfulPayment}
+                        onCancel={()=> {Alert.alert('Payment Canceled'); navigation.navigate('Cart')}}
+                        autoStart = {true}
+                    />
             )
+    
+            }
+            catch(err){
+    
+                
+                return (
+                    <View><Text>An Error Occured</Text></View>
+                )
+            }
+            
         }
         
-    }
 
 
 
@@ -85,13 +89,23 @@ const PaymentScreen:React.FC<PaymentProp> = ({navigation, route})=>{
         <View>
 
              {/**PayStack UI.....................................................
-             * .................................................................
-             */}
+              * .................................................................
+              */}
             <View>
                <Payment />
             </View>
-            {/*///////////////////////////////////////////////////////////////////////*/ }
+            {/*//////////////////////////////////////////////////////////////////////*/ }
 
+            {/* <View>
+                {paymentSuccess ?
+
+                    <AlertBox text= "Payment Successful" />
+
+                :
+                    null
+                    
+                }
+            </View> */}
         </View>
     )
 

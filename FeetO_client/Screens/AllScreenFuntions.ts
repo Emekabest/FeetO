@@ -41,7 +41,6 @@ const getAllItems = async (route:string)=>{
 /**.................................................................................................... */
 const formatPrice = (totalPrice)=>{
 
-    console.log(typeof(totalPrice))
 
     const priceStr = String(totalPrice)
     let index = 0;

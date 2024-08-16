@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { appPrimaryColor, getAllItems } from "../AllScreenFuntions";
 import Loader from "../Loader/Loader";
+import AlertBox from "../AlertBox/AlertBox";
 
 interface HomeScreenProps{
     navigation:any
@@ -212,8 +213,10 @@ if (!AllItems.length){
 }
 return (
     <View style = {AllScreenStyles.body}>
+
         <Header screenName = "Home" previousScreen="None"/>{/**Header............................................. */}
-        
+
+
         <View>
             
         </View>
@@ -268,6 +271,7 @@ return (
 
                 </View>
             </View>
+
 
             <View style = {HomeScreenStyles.productCardMainContainer}>{/**All Product Template*/}
                 <View style = {HomeScreenStyles.productCardMainContainerInner}>
