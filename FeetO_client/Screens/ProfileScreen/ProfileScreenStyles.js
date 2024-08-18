@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { appPrimaryColor } from "../AllScreenFuntions";
+import { appPrimaryColor, screenHeight } from "../AllScreenFuntions";
 
 
 
@@ -28,21 +28,30 @@ const ProfileScreenStyles = StyleSheet.create({
 
     },
 
+    InputContLi:{
+        marginVertical:10,
+
+    },
+
+    InputContLiTxt:{
+        color:'#aaa'
+    },
+
     Input:{
         borderWidth:1,
         borderColor:'#aaaaaa',
         borderRadius:8,
-        marginVertical:8,
-        height:45
+        // marginVertical:8,
+        paddingHorizontal:7,
+        height:45,
+        color:'#333',
     },
-
 
     ButtonCont:{
         marginVertical:10,
         height:50,
         alignItems:'center',
         justifyContent:'center',
-    
     },
 
     Button:{
@@ -60,6 +69,28 @@ const ProfileScreenStyles = StyleSheet.create({
         fontWeight:'bold'
     },
 
+
+    changePasswordPanel:{
+        height:screenHeight,
+        width:'100%',
+        backgroundColor:'lightgray',
+        position:'absolute',
+        zIndex:1
+
+    },
+
+    changePasswordPanelHeader:{
+        height:50,
+        padding:10,
+        backgroundColor:'#333',
+        justifyContent:'center',
+        alignItems:"flex-start"
+
+    },
+
+    changePasswordPanelBody:{
+        padding:10
+    }
 
 
 

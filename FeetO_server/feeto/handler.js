@@ -331,6 +331,98 @@ app.post('/upload', upload.single('image'), async(req, res)=>{
 ///////////////////////////////////////////////////////////////////////////////////////
 
 
+/****************************************************************************************************************/
+
+
+
+
+
+
+
+
+/**Updating or modifying user details ......................................................................*/
+app.put('/update_profile/:userId', async(req, res)=>{
+
+  try{
+
+    const userId = req.params.userId
+    const updatedUserDetails = req.body
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      updatedUserDetails,
+      { new: true } // Return the updated document
+    );
+
+
+    
+    res.status(200).json({msg: 'Data updated', updatedUser})
+
+  }
+  catch(err){
+
+    res.status(500).json({msg:'An error occured'})
+  }
+
+
+})
+///////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+/**Update User password............................................................... */
+  app.put('/update_password/:userId', async(req, res)=>{
+
+    try{
+      const userId = req.params.userId
+      const passWordDetails = req.body
+      const {oldPassword, newPassword,} = passWordDetails
+
+
+      const user = await User.findById(userId)//Gets the userDetails
+
+      const { password } = user
+      const isPassword = await bcrypt.compare(oldPassword, password)//Comparing the oldPassword with the user initial password
+
+      
+      /**This condition runs when the initial or old password dosen't match */
+      if (!isPassword){
+
+          res.status(201).json({msg:'Old password is incorrect'})
+          return
+      }
+      /*.................................................................... */
+
+      
+
+
+      const encryptedPassword = await bcrypt.hash(newPassword, 10)//Encrypt the password.............................
+      /**Updates the old or initial password in the database to the newpassword */
+      const updatedUser = await User.findByIdAndUpdate(
+         userId,
+        {password: encryptedPassword},
+        { new: true }// Return the updated document
+      )
+
+      
+
+
+      res.status(200).json({msg:'Password successfully changed', updatedUser})
+    }
+    catch(err){
+
+      res.status(500).json({msg:"An error Occured"})
+    }
+  })
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
 
 app.use((req, res, next) => {
   return res.status(404).json({

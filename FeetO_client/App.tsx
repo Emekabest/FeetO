@@ -33,6 +33,7 @@ function App(): React.JSX.Element {
       <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <SafeAreaView style = {{height:'100%'}}>
+
           <Stack.Navigator>
             <Stack.Screen name="Home" component={HomeScreen} options={{headerShown:false}}/>
             <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} options={{headerShown:false}}/>
@@ -47,8 +48,8 @@ function App(): React.JSX.Element {
             <Stack.Screen name="AddProductScreen" component={AddProdutAdminScreen} options={{headerShown:false}}/>
             <Stack.Screen name="SearchItems" component={SearchItemsScreen} options={{headerShown:false}}/>
             <Stack.Screen name="Profile" component={ProfileScreen} options={{headerShown:false}}/>
-            
-        </Stack.Navigator>
+          </Stack.Navigator>
+
       </SafeAreaView>
     </PersistGate>
     </Provider>

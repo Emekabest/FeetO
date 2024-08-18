@@ -1,4 +1,9 @@
 import axios from "axios";
+import { Dimensions } from "react-native";
+
+const screenHeight = Math.floor(Dimensions.get("window").height);
+const screenWidth = Math.floor(Dimensions.get("window").width);
+
 
 /**App Primary Color */
 const appPrimaryColor = "#a12323"
@@ -69,4 +74,4 @@ const formatPrice = (totalPrice)=>{
 
 
 
-export {getPreviousScreen, getAllItems, formatPrice, appPrimaryColor}
+export {getPreviousScreen, getAllItems, formatPrice, appPrimaryColor, screenHeight, screenWidth}

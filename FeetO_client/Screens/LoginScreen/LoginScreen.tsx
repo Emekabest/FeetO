@@ -92,6 +92,7 @@ const LoginScreen:React.FC<LoginScreenProp> = ({navigation})=>{
                     password
                 }
 
+
                 const url = 'https://9s5gflpjlh.execute-api.us-east-1.amazonaws.com/login'
                 axios.post(url, userDetails, {headers:{'Content-Type': 'application/json'}}).then( async(res)=>{
                     const data = res.data
@@ -105,7 +106,7 @@ const LoginScreen:React.FC<LoginScreenProp> = ({navigation})=>{
 
                         navigation.navigate('Home')
                     }
-
+                    
 
                     Alert.alert(data.msg)
                 }).catch((err)=>{
