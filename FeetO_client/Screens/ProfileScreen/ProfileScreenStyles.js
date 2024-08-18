@@ -14,7 +14,7 @@ const ProfileScreenStyles = StyleSheet.create({
 
     profileContImage:{
         height:150,
-        backgroundColor:'lightgreen',
+        backgroundColor:'lightblue',
         borderRadius:8,
 
     },
