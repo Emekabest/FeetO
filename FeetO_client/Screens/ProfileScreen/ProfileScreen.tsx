@@ -8,7 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
+import { faArrowLeft, faUser } from "@fortawesome/free-solid-svg-icons"
 import Loader from "../Loader/Loader"
 
 
@@ -49,10 +49,6 @@ const ProfileScreen:React.FC<ProfileScreenProps> = ({navigation})=>{
     ////////////////////////////////////////////////////////////////
 
     const [isLoader, setIsLoader] = useState(false)
-
-
-
-
 
 
 
@@ -174,7 +170,7 @@ const ProfileScreen:React.FC<ProfileScreenProps> = ({navigation})=>{
 
 
 
-        
+
         const inputLoopCount = getInputLoopCount(inputInfos)     
 
         /**This section execute when there are no error in the input...................................... */
@@ -373,7 +369,12 @@ const ProfileScreen:React.FC<ProfileScreenProps> = ({navigation})=>{
                     <View style = {ProfileScreenStyles.profileCont}>
 
                         <View>
-                            <View style = {ProfileScreenStyles.profileContImage}></View>{/**Profile Image........................... */}
+                            <View style = {ProfileScreenStyles.profileContImage}>
+                                <View style = {ProfileScreenStyles.imageCont}>
+                                    <FontAwesomeIcon icon={faUser} size={70} color="#aaa" />
+                                </View>
+                                
+                            </View>{/**Profile Image........................... */}
 
                             <View style = {ProfileScreenStyles.InputCont}>
                                 <View style = {ProfileScreenStyles.InputContLi}>{/**firstname edit........................... */}

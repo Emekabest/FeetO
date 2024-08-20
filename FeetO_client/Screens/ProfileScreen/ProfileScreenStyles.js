@@ -9,16 +9,23 @@ const ProfileScreenStyles = StyleSheet.create({
     profileCont:{
         margin:5,
         borderRadius:8,
-        // backgroundColor:'#fff'
     },
 
     profileContImage:{
         height:150,
-        backgroundColor:'lightblue',
         borderRadius:8,
-
+        justifyContent:'center',
+        alignItems:'center'
     },
 
+    imageCont:{
+        height:"80%",
+        width:"50%",
+        backgroundColor:'#fff',
+        borderRadius:50,
+        alignItems:'center',
+        justifyContent:'center'
+    },
 
     InputCont:{
         marginTop:10,
