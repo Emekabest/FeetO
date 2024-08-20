@@ -93,6 +93,7 @@ const AccountScreen:React.FC<AccountScreenProp> =  ({navigation})=>{
                                 <View style = {AccountScreenStyles.BottomSectionInner}>
                                 {
                                     !user ? 
+
                                     <TouchableOpacity style = {AccountScreenStyles.BottomSectionBtn} onPress={()=> navigation.navigate('Login')}>
                                         <Text style = {AccountScreenStyles.BottomSectionBtnTxt}>Login</Text>
                                     </TouchableOpacity>
@@ -104,7 +105,6 @@ const AccountScreen:React.FC<AccountScreenProp> =  ({navigation})=>{
                                     </TouchableOpacity>
 
                                 }
-
                                     
                                 </View>
                             </View>

@@ -8,7 +8,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
-import { faArrowLeft, faTimes } from "@fortawesome/free-solid-svg-icons"
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
+import Loader from "../Loader/Loader"
 
 
 interface ProfileScreenProps{
@@ -17,21 +18,24 @@ interface ProfileScreenProps{
 }
 
 
+
 const ProfileScreen:React.FC<ProfileScreenProps> = ({navigation})=>{
     const previousScreen = getPreviousScreen(useNavigationState)
 
     const [user, setUser] = useState('')
     
+
     const [newFirstname, setNewFirstname] = useState('')
     const [newLastname, setNewLastname] = useState('')
+
+    const [firstNameErrorMsg, setFirstNameErrorMsg] = useState('')
+    const [lastNameErrorMsg, setLastNameErrorMsg] = useState('')
 
 
 
     /**Display section state */
     const [changePasswordPanel_display, setChangePasswordPanel_display] = useState('none')
     /**.................... */
-
-
 
 
     /**.........................................................*/
@@ -43,6 +47,29 @@ const ProfileScreen:React.FC<ProfileScreenProps> = ({navigation})=>{
     const [newPasswordErrorMsg, setNewPasswordErrorMsg] = useState('')
     const [confirmNewPasswordErrorMsg, setConfirmNewPasswordErrorMsg] = useState('')
     ////////////////////////////////////////////////////////////////
+
+    const [isLoader, setIsLoader] = useState(false)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     /**Getting the userdetails data.................................... */
@@ -77,31 +104,114 @@ const ProfileScreen:React.FC<ProfileScreenProps> = ({navigation})=>{
     
 
 
+
+
+
+
+
+
+    const getInputLoopCount = (inputInfos:any)=>{
+
+        /**Checking if any input is empty.................................................*/
+        let loopCount = inputInfos.length
+        inputInfos.forEach((input)=>{
+            if (!input.name ){
+
+                input.setErrorMsg('field is empty')
+
+            }
+            /**Checks if the input passed in is valid................................... */
+            else if (input.name.length > 0 && !input.regex){
+                
+                input.setErrorMsg(input.regexErrorMsg)
+            }
+            else{
+                input.setErrorMsg('')
+                loopCount--
+            }
+
+        })  
+
+        return loopCount
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
     
     /**Updating or modifying user details.................................................... */
     const updateAccount = ()=>{
-        
-        const {_id:userId, password} = user
 
-        const updatedUserDetails = {
-            firstname: newFirstname,
-            lastname: newLastname,
-        }
+        const nameRegex = /^[a-zA-Z]{3,30}$/
+
+        const inputInfos = [
+
+            {
+                id:'firstname',
+                name:newFirstname,
+                regex:nameRegex.test(newFirstname.trim()),
+                regexErrorMsg:'value must be more than 2 and less than 30, must include only alphabet(a-z)',
+                setErrorMsg(errorMsg:string){
+                    setFirstNameErrorMsg(errorMsg)
+                }
+            },
     
+            {
+                id:'lastname',
+                name:newLastname,
+                regex:nameRegex.test(newLastname.trim()),
+                regexErrorMsg:'value must be more than 2 and less than 30, must include only alphabet(a-z)',
+                setErrorMsg(errorMsg:string){
+                    setLastNameErrorMsg(errorMsg)
+                }
+            },
 
-        const url = `https://9s5gflpjlh.execute-api.us-east-1.amazonaws.com/update_profile/${userId}`
-        axios.put(url, updatedUserDetails).then(async(res)=>{
+        ]
 
-            const User = res.data.updatedUser
+
+
+
+
+        
+        const inputLoopCount = getInputLoopCount(inputInfos)     
+
+        /**This section execute when there are no error in the input...................................... */
+        const noErrorsFound = inputLoopCount <= 0 ? true : false
+
+
+        if (noErrorsFound){
+            setIsLoader(true)
             
-            await AsyncStorage.setItem('UserDetails_F', JSON.stringify(User))
+            const {_id:userId} = user
 
-            Alert.alert('Profile updated successfully')
-        })
-        .catch((err)=>{
+            const updatedUserDetails = {
+                firstname: newFirstname,
+                lastname: newLastname,
+            }
 
-            console.log('An error o ' + err)
-        })
+
+
+            const url = `https://9s5gflpjlh.execute-api.us-east-1.amazonaws.com/update_profile/${userId}`
+            axios.put(url, updatedUserDetails).then(async(res)=>{
+
+                const User = res.data.updatedUser
+                
+                await AsyncStorage.setItem('UserDetails_F', JSON.stringify(User))
+
+
+                setIsLoader(false)
+                Alert.alert('Profile updated successfully')
+            })
+            .catch((err)=>{
+                
+                setIsLoader(false)
+                console.log('An error o ' + err)
+                Alert.alert('Something went wrong')
+            })
+
+        }
 
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,8 +220,22 @@ const ProfileScreen:React.FC<ProfileScreenProps> = ({navigation})=>{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**This function updates user password................................................................. */
     const updatePassword = ()=>{
+
 
         const passwordRegex = /^.{5,}$/
         const confirmPasswordRegex = new RegExp(`^${newPassword}$`)
@@ -147,42 +271,19 @@ const ProfileScreen:React.FC<ProfileScreenProps> = ({navigation})=>{
                     setConfirmNewPasswordErrorMsg(errorMsg)
                 }
             },
-
         ]
 
-
-            /**Checking if any input is empty................................................. */
-            let loopCount = inputInfos.length
-            inputInfos.forEach((input)=>{
-            if (!input.name ){
-
-                input.setErrorMsg('field is empty')
-
-            }
-            /**Checks if the input passed in is valid................................... */
-            else if (input.name.length > 0 && !input.regex){
-                
-                input.setErrorMsg(input.regexErrorMsg)
-            }
-            /**Runs if there is no error found...................... */
-            else{
-                input.setErrorMsg('')
-                loopCount--
-            }
-
-        })  
-
-        /**............................................................................................... */
-
-
-
+        
 
 
 
         /**This section execute when there are no error in the input...................................... */
-            const noErrorsFound = loopCount <= 0 ? true : false
+            const inputLoopCount = getInputLoopCount(inputInfos)     
+
+            const noErrorsFound = inputLoopCount <= 0 ? true : false
 
             if (noErrorsFound){//Make request here
+                setIsLoader(true)
 
                 const {_id:userId } = user
 
@@ -196,14 +297,19 @@ const ProfileScreen:React.FC<ProfileScreenProps> = ({navigation})=>{
 
                     if (res.status === 201){//This condition only becomes true when the oldpassword dosent match with the user database initial password
 
+                        setIsLoader(false)
                         Alert.alert(res.data.msg)
                         return
                     }
 
+                    setIsLoader(false)
                     Alert.alert(res.data.msg)
-                    
                 })
                 .catch((err)=>{
+
+
+                    setIsLoader(false)
+                    Alert.alert('Something went wrong')
 
                     console.log('An error occured o ' + err)
                 })
@@ -222,10 +328,40 @@ const ProfileScreen:React.FC<ProfileScreenProps> = ({navigation})=>{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
     return(
         <View style = {AllScreenStyles.body}>
             <View>
                 <Header screenName="Profile" previousScreen={previousScreen}/>
+
+                {
+                    isLoader ?
+
+                    <Loader />
+
+                    :
+
+                    null
+
+                }
+
+
 
                 {
                     !user ? 
@@ -243,11 +379,13 @@ const ProfileScreen:React.FC<ProfileScreenProps> = ({navigation})=>{
                                 <View style = {ProfileScreenStyles.InputContLi}>{/**firstname edit........................... */}
                                     <Text style = {ProfileScreenStyles.InputContLiTxt}>Firstname</Text>
                                     <TextInput  style = {ProfileScreenStyles.Input} value={newFirstname} onChangeText={setNewFirstname} placeholderTextColor= '#aaa' placeholder="Enter your firstname" />
+                                    <Text style = {{color:appPrimaryColor}}>{firstNameErrorMsg}</Text>
                                 </View>
 
                                 <View style = {ProfileScreenStyles.InputContLi}>
                                     <Text style = {ProfileScreenStyles.InputContLiTxt}>Lastname</Text>
                                     <TextInput  style = {ProfileScreenStyles.Input} value={newLastname} onChangeText={setNewLastname} placeholderTextColor= '#aaa' placeholder="Enter your lastname" />{/**lastname edit........................... */}
+                                    <Text style = {{color:appPrimaryColor}}>{lastNameErrorMsg}</Text>
                                 </View>
 
                                 <View style = {ProfileScreenStyles.InputContLi}>
@@ -273,8 +411,27 @@ const ProfileScreen:React.FC<ProfileScreenProps> = ({navigation})=>{
                 }
 
 
+
+
+
+
+
                 {/**Change password panel......................................................... */}
                 <View style = {[ProfileScreenStyles.changePasswordPanel, {display:changePasswordPanel_display}]}>
+
+                    {
+                        isLoader ?
+
+                        <Loader />
+
+                        :
+
+                        null
+
+                    }
+
+
+
                     <View>
                         <View style = {ProfileScreenStyles.changePasswordPanelHeader}>
                            

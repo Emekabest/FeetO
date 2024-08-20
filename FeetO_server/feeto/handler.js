@@ -142,20 +142,18 @@ app.post('/register', async(req, res, next)=>{
         /**Creates a new User................................ */
         const encryptedPassword = await bcrypt.hash(password, 10) //Generating an encrypted password of the user original password
 
-        const user = {
-          firstname:firstname.trim(),
-          lastname:lastname.trim(),
-          email:email.trim(),
-          password:encryptedPassword.trim()
-        }
         /**This command creates a new user in the database */
-        await User.create(user)
+       const user = await User.create({
+        firstname:firstname.trim(),
+        lastname:lastname.trim(),
+        email:email.trim(),
+        password:encryptedPassword.trim()
+      })
         /**................................................. */
       
       
         res.status(200).json({ success: true, data:user, msg:'Successfully Registered'});
     }
-
 
 
   }
@@ -354,7 +352,6 @@ app.put('/update_profile/:userId', async(req, res)=>{
       { new: true } // Return the updated document
     );
 
-
     
     res.status(200).json({msg: 'Data updated', updatedUser})
 
@@ -362,6 +359,7 @@ app.put('/update_profile/:userId', async(req, res)=>{
   catch(err){
 
     res.status(500).json({msg:'An error occured'})
+
   }
 
 

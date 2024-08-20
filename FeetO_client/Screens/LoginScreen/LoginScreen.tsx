@@ -7,6 +7,7 @@ import RegisterScreenStyles from "../RegisterScreen/RegisterScreenStyles"
 import { useState } from "react"
 import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import Loader from "../Loader/Loader"
 
 
 interface LoginScreenProp{
@@ -24,13 +25,13 @@ const LoginScreen:React.FC<LoginScreenProp> = ({navigation})=>{
     ////////////////////////////////////////////////////////////////////////
     const [emailErrorMsg, setEmailErrorMsg] = useState('')
     const [passWordErrorMsg, setPasswordErrorMsg] = useState('')
+    const [isLoader, setIsLoader] = useState(false)
 
 
     const login = ()=>{
         const emailRegex = /^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/
         const passwordRegex = /^.{1,}$/
         
-
 
         const inputInfos = [
 
@@ -79,13 +80,17 @@ const LoginScreen:React.FC<LoginScreenProp> = ({navigation})=>{
                  }
  
              })  
-             ////////////////////////////////////////////////////////////////////////////////////////////////////
+             ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
+
+
+             /**Runs when there are no inpput errors......................... */
              const noErrorsFound = loopCount <= 0 ? true : false
              if (noErrorsFound){
                 //make request here
+                setIsLoader(true)//Activate the loader..................
 
                 const userDetails = {
                     email:email.toLowerCase(),
@@ -108,6 +113,7 @@ const LoginScreen:React.FC<LoginScreenProp> = ({navigation})=>{
                     }
                     
 
+                    setIsLoader(false)//Deactive the loader............
                     Alert.alert(data.msg)
                 }).catch((err)=>{
                     console.log('Error: ' + err)
@@ -123,12 +129,20 @@ const LoginScreen:React.FC<LoginScreenProp> = ({navigation})=>{
 
 
 
-
-
     return (
         <View style = {AllScreenStyles.body}>
-            <Header screenName="Login" previousScreen={previousScreen}  />
+            <Header screenName="Login" previousScreen={previousScreen}/>
+                {
+                    isLoader ?
+
+                    <Loader />
+
+                    :
+
+                    null
+                }
             <View style = {RegisterScreenStyles.bodyInner}>
+
             
             
             <View style = {RegisterScreenStyles.RegisterCont}>{/**Registration Container........................................................................ */}

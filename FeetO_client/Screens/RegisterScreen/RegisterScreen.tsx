@@ -7,6 +7,7 @@ import { useNavigationState } from "@react-navigation/native"
 import { useState } from "react"
 import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import Loader from "../Loader/Loader"
 
 interface RegisterScreenProp{
     navigation:any
@@ -31,6 +32,7 @@ const RegisterScreen:React.FC<RegisterScreenProp> = ({navigation})=>{
     const [emailErrorMsg, setEmailErrorMsg] = useState('')
     const [passWordErrorMsg, setPasswordErrorMsg] = useState('')
     const [confirmPasswordErrorMsg, setConfirmPasswordErrorMsg] = useState('')
+    const [isLoader, setIsLoader] = useState(false)
 
 
 
@@ -42,6 +44,8 @@ const RegisterScreen:React.FC<RegisterScreenProp> = ({navigation})=>{
 
 
         const inputInfos = [
+
+
             {
                 id:'firstname',
                 name:firstname,
@@ -49,7 +53,6 @@ const RegisterScreen:React.FC<RegisterScreenProp> = ({navigation})=>{
                 regexErrorMsg:'value must be more than 1 and less than 30, must include only alphabet(a-z)',
                 setErrorMsg(errorMsg:string){
                     setFirstNameErrorMsg(errorMsg)
-
                 }
             },
     
@@ -123,10 +126,11 @@ const RegisterScreen:React.FC<RegisterScreenProp> = ({navigation})=>{
             
             const noErrorsFound = loopCount <= 0 ? true : false
             if (noErrorsFound){//make request here..........
+                setIsLoader(true)
                 
                 const userDetails = {
                     firstname:firstname.toLowerCase(),
-                    lastname:firstname.toLowerCase(),
+                    lastname:lastname.toLowerCase(),
                     email:email.toLowerCase(),
                     password
                 }
@@ -148,6 +152,7 @@ const RegisterScreen:React.FC<RegisterScreenProp> = ({navigation})=>{
 
                     }
 
+                    setIsLoader(false)
                     Alert.alert(data.msg)
                 })
                 .catch((err)=>{
@@ -165,6 +170,15 @@ const RegisterScreen:React.FC<RegisterScreenProp> = ({navigation})=>{
     return (
         <View style = {AllScreenStyles.body}>
             <Header screenName="Register" previousScreen={previousScreen}/>
+            {
+                    isLoader ? 
+
+                    <Loader />
+
+                    :
+
+                    null
+                }
             <View style = {RegisterScreenStyles.bodyInner}>
 
                 

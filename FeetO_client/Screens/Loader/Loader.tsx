@@ -9,7 +9,6 @@ import { appPrimaryColor } from "../AllScreenFuntions"
 const Loader = ()=>{
 
 
-
     return(
         <View style = {AllScreenStyles.loaderMainCont}>
             <View style = {AllScreenStyles.loaderMainContInner}>

@@ -48,8 +48,6 @@ const HomeScreen:React.FC<HomeScreenProps> = ({navigation})=> {
         }
         getItems()
     },[])
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -215,7 +213,6 @@ return (
     <View style = {AllScreenStyles.body}>
 
         <Header screenName = "Home" previousScreen="None"/>{/**Header............................................. */}
-
 
         <View>
             
