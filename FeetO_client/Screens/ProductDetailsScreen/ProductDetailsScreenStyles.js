@@ -41,6 +41,19 @@ const ProductDetailsScreenStyles = StyleSheet.create({
         color:'#333'
     },
 
+    thirdSectionDescription:{
+        marginVertical:20
+    },
+
+    thirdSectionDescriptionHeader:{
+        color:'#333',
+        fontSize:20
+    },
+
+    thirdSectionDescriptionTxt:{
+        color:'gray'
+    },
+
     forthSection:{
         height:65,
         width:'100%',

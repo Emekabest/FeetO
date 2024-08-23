@@ -21,7 +21,7 @@ const AddProdutAdminScreen:React.FC<AddProductAdminScreenProp> = ({navigation})=
     
     const [productName, setProductName] = useState('')
     const [price, setPrice] = useState('')
-    const [qty, setQty] = useState('')
+    const [description, setDescription] = useState('')
     const [imageUri, setImageUri] = useState(null);
     const [imageData, setImageData] = useState({});
 
@@ -97,6 +97,7 @@ const AddProdutAdminScreen:React.FC<AddProductAdminScreenProp> = ({navigation})=
             const newProduct = new FormData();
             newProduct.append('name', productName);
             newProduct.append('price', price);
+            newProduct.append('description', description)
             newProduct.append('image', imageData);
             /**..................................... */
 
@@ -146,7 +147,7 @@ const AddProdutAdminScreen:React.FC<AddProductAdminScreenProp> = ({navigation})=
                     <View style = {{backgroundColor:'#fff', padding:7, borderRadius:8}}>{/**Input section */}
                         <TextInput placeholder="Product Name" placeholderTextColor='gray' style = {AdminScreenStyles.addproductInput} value={productName} onChangeText={setProductName} />
                         <TextInput placeholder="Price" placeholderTextColor='gray' style = {AdminScreenStyles.addproductInput} value = {price} onChangeText={setPrice} />
-                        <TextInput placeholder="Quantity" placeholderTextColor='gray' style = {AdminScreenStyles.addproductInput} />
+                        <TextInput placeholder="Description" placeholderTextColor='gray' style = {[AdminScreenStyles.addproductInput, {height:100}]} textAlignVertical="top" value={description} onChangeText={setDescription} />
                     </View>
 
 

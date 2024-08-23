@@ -166,6 +166,14 @@ const ProductDetailsScreen:React.FC<ProductDetailsProp> = ({navigation, route})=
                         <View style = {ProductDetailsScreenStyles.thirdSectionPrice}>
                             <Text style = {ProductDetailsScreenStyles.thirdSectionPriceTxt}>N {product.price}</Text>
                         </View>
+                        
+                        <View style = {ProductDetailsScreenStyles.thirdSectionDescription}>
+                        <Text style = {ProductDetailsScreenStyles.thirdSectionDescriptionHeader}>Description</Text>
+                            <Text style = {ProductDetailsScreenStyles.thirdSectionDescriptionTxt}>
+                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque, doloremque quod qui tempore vero libero laboriosam quisquam fuga quia dignissimos, temporibus fugiat aperiam rem dolorum laudantium eos dolores tempora fugit tenetur dolorem, laborum veniam suscipit architecto! Accusamus provident adipisci atque!
+                            </Text>
+                        </View>
+
                     </View>
 
                 </ScrollView>

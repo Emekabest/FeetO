@@ -369,12 +369,12 @@ const ProfileScreen:React.FC<ProfileScreenProps> = ({navigation})=>{
                     <View style = {ProfileScreenStyles.profileCont}>
 
                         <View>
-                            <View style = {ProfileScreenStyles.profileContImage}>
+                            <View style = {ProfileScreenStyles.profileContImage}>{/**Profile Image........................... */}
                                 <View style = {ProfileScreenStyles.imageCont}>
                                     <FontAwesomeIcon icon={faUser} size={70} color="#aaa" />
                                 </View>
                                 
-                            </View>{/**Profile Image........................... */}
+                            </View>
 
                             <View style = {ProfileScreenStyles.InputCont}>
                                 <View style = {ProfileScreenStyles.InputContLi}>{/**firstname edit........................... */}

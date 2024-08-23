@@ -131,6 +131,7 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
         const customerCheckoutInfo = {
             items:JSON.stringify(CartItems),
             user:JSON.stringify({
+                id:user._id,
                 firstname:user.firstname,
                 lastname:user.lastname,
                 email:user.email,

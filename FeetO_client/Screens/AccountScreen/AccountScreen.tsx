@@ -60,7 +60,7 @@ const AccountScreen:React.FC<AccountScreenProp> =  ({navigation})=>{
                                                 <Text style = {AccountScreenStyles.TopSectionLiTxt}>Profile</Text>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity style = {AccountScreenStyles.TopSectionLi}>
+                                <TouchableOpacity style = {AccountScreenStyles.TopSectionLi} onPress={()=> navigation.navigate('Orders')}>
                                                 <Text style = {AccountScreenStyles.TopSectionLiTxt}>Orders</Text>
                                 </TouchableOpacity>
 

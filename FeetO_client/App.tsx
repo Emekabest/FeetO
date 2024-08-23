@@ -20,11 +20,13 @@ import ProfileScreen from './Screens/ProfileScreen/ProfileScreen';
 import { Provider } from 'react-redux';
 import store, {persistor} from './Screens/Redux/Store';
 import { PersistGate } from 'redux-persist/integration/react';
+import OrderScreen from './Screens/AccountScreen/OrdersScreen';
 
 
 const Stack = createNativeStackNavigator();
 function App(): React.JSX.Element {
 
+  
 
   return (
     <NavigationContainer>
@@ -48,6 +50,9 @@ function App(): React.JSX.Element {
             <Stack.Screen name="AddProductScreen" component={AddProdutAdminScreen} options={{headerShown:false}}/>
             <Stack.Screen name="SearchItems" component={SearchItemsScreen} options={{headerShown:false}}/>
             <Stack.Screen name="Profile" component={ProfileScreen} options={{headerShown:false}}/>
+            <Stack.Screen name="Orders" component={OrderScreen} options={{headerShown:false}}/>
+
+
           </Stack.Navigator>
 
       </SafeAreaView>

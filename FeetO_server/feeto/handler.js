@@ -302,12 +302,13 @@ app.post('/upload', upload.single('image'), async(req, res)=>{
     const {originalname, buffer, mimetype} = req.file;
 
     const newProduct = req.body
-    const {name, price,} = newProduct
+    const {name, price, description} = newProduct
 
 
     const itemUploaded = await Items.create({
       name,
       price,
+      description,
       image:{
         filename: originalname,
         data: buffer,
