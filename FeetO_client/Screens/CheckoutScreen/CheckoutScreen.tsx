@@ -88,7 +88,6 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
             qty,
             size,
             color,
-
         })
 
     })
@@ -139,7 +138,7 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
             address,
             phoneNumber,
             totalItemPrice
-        
+
         }
 
         
@@ -150,7 +149,7 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
 
 
 
-
+    
     /**AddressInput AlertBox..........................................................................................
      * ...............................................................................................................
      */
@@ -169,7 +168,7 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
                             <Text style = {AllScreenStyles.TextSectionTxt}>Are you sure you want to Discard changes?</Text>
                         </View>
 
-    
+
                         <View style = {[AllScreenStyles.ButtonSection, {flexDirection:'row', display:'flex'}]}>
                             <TouchableOpacity onPress={handleCancelEdit} style = {AllScreenStyles.ButtonSectionLeft}><Text style = {{color:'#333', fontWeight:'bold'}}>Yes</Text></TouchableOpacity>
                             <TouchableOpacity onPress={()=> setComponentAlertBox_display('none')} style = {AllScreenStyles.ButtonSectionRight}><Text style = {{color:'#333', fontWeight:'bold'}}>No</Text></TouchableOpacity>

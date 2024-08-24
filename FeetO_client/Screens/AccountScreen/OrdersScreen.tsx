@@ -1,9 +1,11 @@
 import { Text, TouchableOpacity, View } from "react-native"
 import AllScreenStyles from "../AllScreenStyles"
 import Header from "../Header/Header"
-import { getPreviousScreen } from "../AllScreenFuntions"
+import { getData, getPreviousScreen } from "../AllScreenFuntions"
 import { useNavigationState } from "@react-navigation/native"
 import OrdersScreenStyles from "./OrdersScreenStyles"
+import { useEffect, useState } from "react"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
 interface OrdersScreenProp{
@@ -14,8 +16,82 @@ interface OrdersScreenProp{
 
 const OrderScreen:React.FC<OrdersScreenProp> = ({navigation})=>{
     const previousScreen = getPreviousScreen(useNavigationState)
+    const [allOrderItems, setAllOrderItems] = useState([])
+    const [currentLoggedIn_userId, setCurrentLoggedIn_userId] = useState('')
+    const [myOrders, setMyOrders] = useState([])
 
 
+
+    
+    useEffect(()=>{
+        const getUserId = async()=>{
+    
+            const user = JSON.parse(await AsyncStorage.getItem('UserDetails_F'))
+      
+            setCurrentLoggedIn_userId(user._id)
+      
+          }
+          getUserId()
+    },[])
+
+
+
+
+
+
+
+    useEffect(()=>{
+        
+        const getAllOrders = async()=>{
+    
+            const items = await getData('/getorders')
+
+            const data = items.allorders
+
+
+            
+            setAllOrderItems(data)
+    
+        }
+        getAllOrders()
+
+    },[])
+
+
+
+    
+    useEffect(()=>{
+        
+        // console.log(allOrderItems.length)
+        if (allOrderItems.length){
+
+            allOrderItems.forEach((orders)=>{
+
+                const order_userId = JSON.parse(orders.user).id
+
+
+                if (order_userId === currentLoggedIn_userId.trim()){
+
+
+
+                    // setMyOrders(prev => prev.find(item => item.id))
+                    // ..console.log(order_userId)
+
+                }
+
+
+            })
+
+        }
+
+
+        
+    },[allOrderItems])
+
+
+    console.log(myOrders)
+
+    
 
     return (
         <View style = {AllScreenStyles.body}>

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { faArrowLeft, faCancel, faTimes } from "@fortawesome/free-solid-svg-icons"
 import { useEffect, useState } from "react"
 import axios from "axios"
-import { getAllItems, getPreviousScreen } from "../AllScreenFuntions"
+import { getData, getPreviousScreen } from "../AllScreenFuntions"
 import HomeScreenStyles from "../HomeScreen/HomeScreenStyles"
 import { useNavigationState } from "@react-navigation/native"
 import Loader from "../Loader/Loader"
@@ -62,7 +62,7 @@ const SearchItemsScreen:React.FC<SearchItemsScreenProps> = ({navigation, route})
 
 
                     /**Getting the the items data from the databse................................................................................ */
-                    const allItems = await getAllItems('/')                   
+                    const allItems = await getData('/')                   
                     //////////////////////////////////////////////////////////////////////////////////////
                     
                     

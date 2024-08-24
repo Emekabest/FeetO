@@ -23,15 +23,16 @@ const getPreviousScreen = (useNavigationState:any)=>{
 
 
 /**This function gets all items from the database............ */
-const getAllItems = async (route:string)=>{
+const getData = async (route:string)=>{
 
     try{
         const response = await axios.get(`https://9s5gflpjlh.execute-api.us-east-1.amazonaws.com${route}`)
 
-        return response.data.items
+        return response.data
     }
     catch(err){
 
+        console.log(err)
         return err
     }
 
@@ -74,4 +75,4 @@ const formatPrice = (totalPrice)=>{
 
 
 
-export {getPreviousScreen, getAllItems, formatPrice, appPrimaryColor, screenHeight, screenWidth}
+export {getPreviousScreen, getData, formatPrice, appPrimaryColor, screenHeight, screenWidth}

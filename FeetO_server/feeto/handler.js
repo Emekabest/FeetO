@@ -277,16 +277,16 @@ app.get('/getorders', async(req, res)=>{
 
 /**AddProduct route (Adding new product to the data base).................................... */
 
-const fileFilter = (req, file, cb) => {
-  // Accept image files only
-  if (!file.mimetype.startsWith('image/')) {
-    return cb(new Error('File type not supported'), false);
-  }
+// const fileFilter = (req, file, cb) => {
+//   // Accept image files only
+//   if (!file.mimetype.startsWith('image/')) {
+//     return cb(new Error('File type not supported'), false);
+//   }
 
 
-  cb(null, true);
+//   cb(null, true);
 
-}
+// }
 
 // Set up multer for file storage in memory
 const storage = multer.memoryStorage();
