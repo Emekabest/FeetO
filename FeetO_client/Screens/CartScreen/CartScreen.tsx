@@ -82,7 +82,7 @@ const CartScreen:React.FC<CartScreenProp>= ({navigation, route})=>{
     /**////////////////////////////////////////////////////////////////////////////////////////////// */
 
 
-
+        
 
 
     /**Handles when a user proceeds to checkout the items...............................................................  */
@@ -117,72 +117,73 @@ const CartScreen:React.FC<CartScreenProp>= ({navigation, route})=>{
 
                     <View style = {CartScreenStyles.mainBody}>{/**Body.............................................. */}    
 
+
                         <ScrollView style = {{marginBottom: 60} }>
-                        <View>
-                            <View style = {{marginVertical:10, alignItems:'center',}}>
-                                <Text style = {{color:'#333'}}>All Items({cartItems.length ? cartItems.length : 0})</Text>
-                            </View>
+                            <View>
+                                <View style = {{marginVertical:10, alignItems:'center',}}>
+                                    <Text style = {{color:'#333'}}>All Items({cartItems.length ? cartItems.length : 0})</Text>
+                                </View>
 
-                            <View>{/**Items Container.................. */}
+                                <View>{/**Items Container.................. */}
 
-                                    <View>
-                                    <FlatList 
-                                    key={numColoumnId}
-                                    scrollEnabled = {false}
-                                    numColumns={numColoumnId}
-                                    data={cartItems}
-                                    keyExtractor={(item)=> String(item.key)}
-                                    renderItem={({item})=>(
+                                        <View>
+                                        <FlatList 
+                                        key={numColoumnId}
+                                        numColumns={numColoumnId}
+                                        scrollEnabled = {false}
+                                        data={cartItems}
+                                        keyExtractor={(item)=> String(item.key)}
+                                        renderItem={({item})=>(
 
-                                    <TouchableOpacity style ={CartScreenStyles.itemContiner} onPress={()=> navigation.navigate('ProductDetails', {id:item.key})}>{/**Item.................. */}
-                                        <View style = {CartScreenStyles.itemContinerInner}>
-                                            <View style = {CartScreenStyles.itemImage}>{/**Item Image Container... */}
-                                            <View>
-                                                    <Image source={{uri:`data:image/jpeg;base64,${item.image.data}`}}
-                                                    style ={{height:'100%', width:"100%"}}
-                                                    resizeMode="contain"
-                                                    />
+                                        <TouchableOpacity style ={CartScreenStyles.itemContiner} onPress={()=> navigation.navigate('ProductDetails', {id:item.key})}>{/**Item.................. */}
+                                            <View style = {CartScreenStyles.itemContinerInner}>
+                                                <View style = {CartScreenStyles.itemImage}>{/**Item Image Container... */}
+                                                <View>
+                                                        <Image source={{uri:`data:image/jpeg;base64,${item.image.data}`}}
+                                                        style ={{height:'100%', width:"100%"}}
+                                                        resizeMode="contain"
+                                                        />
+                                                    </View>
+                                                    
                                                 </View>
+
+                                                <View style = {CartScreenStyles.itemDetails}>{/**Item Details... */}
+                                                    <View style = {CartScreenStyles.itemDetailsInner}>
+                                                        <View style = {[CartScreenStyles.itemDetailsLi, {maxWidth:'100%'}]}>
+                                                            <Text style = {CartScreenStyles.itemDetailsLiName} >
+                                                                {item.name}
+                                                            </Text>
+                                                        </View>
+                                                        <View style = {CartScreenStyles.itemDetailsLi}>
+                                                            <Text style = {CartScreenStyles.itemDetailsLiPrice}>N{item.price}</Text>
+                                                        </View>
+                                                        <View style = {CartScreenStyles.itemDetailsLi}>
+                                                            <Text style = {CartScreenStyles.itemDetailsLiAvailablity}>In Stock</Text>
+                                                        </View>
+                                                        <View style = {CartScreenStyles.itemDetailsLi}>
+                                                            <Text style = {CartScreenStyles.itemDetailsLiLogo}>FeetO logo</Text>
+                                                        </View>
+                                                    </View>
+                                                </View>
+                                            </View>
                                                 
-                                            </View>
 
-                                            <View style = {CartScreenStyles.itemDetails}>{/**Item Details... */}
-                                                <View style = {CartScreenStyles.itemDetailsInner}>
-                                                    <View style = {[CartScreenStyles.itemDetailsLi, {maxWidth:'100%'}]}>
-                                                        <Text style = {CartScreenStyles.itemDetailsLiName} >
-                                                            {item.name}
-                                                        </Text>
-                                                    </View>
-                                                    <View style = {CartScreenStyles.itemDetailsLi}>
-                                                        <Text style = {CartScreenStyles.itemDetailsLiPrice}>N{item.price}</Text>
-                                                    </View>
-                                                    <View style = {CartScreenStyles.itemDetailsLi}>
-                                                        <Text style = {CartScreenStyles.itemDetailsLiAvailablity}>In Stock</Text>
-                                                    </View>
-                                                    <View style = {CartScreenStyles.itemDetailsLi}>
-                                                        <Text style = {CartScreenStyles.itemDetailsLiLogo}>FeetO logo</Text>
-                                                    </View>
+                                            <TouchableOpacity style = {CartScreenStyles.deleteCont} id={item.key} onPress={()=> handleDelete(item.key)}>{/**Remove Item Button*/}
+                                                <View>
+                                                    <FontAwesomeIcon icon={faTrashCan} />
                                                 </View>
-                                            </View>
-                                        </View>
-                                            
+                                            </TouchableOpacity>
 
-                                        <TouchableOpacity style = {CartScreenStyles.deleteCont} id={item.key} onPress={()=> handleDelete(item.key)}>{/**Remove Item Button*/}
-                                            <View>
-                                                <FontAwesomeIcon icon={faTrashCan} />
-                                            </View>
+
                                         </TouchableOpacity>
 
+                                        )}
+                                        />
 
-                                    </TouchableOpacity>
-
-                                    )}
-                                    />
-
+                                    </View>
+                        
                                 </View>
-                       
                             </View>
-                        </View>
                         </ScrollView>
                  
 

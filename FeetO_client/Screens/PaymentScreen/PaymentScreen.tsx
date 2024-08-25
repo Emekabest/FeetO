@@ -83,7 +83,7 @@ const PaymentScreen:React.FC<PaymentProp> = ({navigation, route})=>{
         }
         
 
-
+        
 
     return(
         <View>
@@ -96,16 +96,6 @@ const PaymentScreen:React.FC<PaymentProp> = ({navigation, route})=>{
             </View>
             {/*//////////////////////////////////////////////////////////////////////*/ }
 
-            {/* <View>
-                {paymentSuccess ?
-
-                    <AlertBox text= "Payment Successful" />
-
-                :
-                    null
-                    
-                }
-            </View> */}
         </View>
     )
 

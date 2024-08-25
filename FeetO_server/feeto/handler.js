@@ -241,7 +241,7 @@ app.post('/login', async(req, res)=>{
       res.status(200).json({msg: 'PaymentSuccessful', data:{address, phoneNumber}})
     }
     catch(err){
-
+      
       res.status(500).json({msg:'An error occured: ' + err})
     }
   })
