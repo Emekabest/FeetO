@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { faCartPlus, prefix } from "@fortawesome/free-solid-svg-icons"
 import FontWebView from "../../fontWebView"
 import { useEffect, useState } from "react"
-import { getPreviousScreen} from "../AllScreenFuntions"
+import { formatPrice, getPreviousScreen, NairaSign} from "../AllScreenFuntions"
 import { useNavigationState } from "@react-navigation/native"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import axios from "axios"
@@ -164,7 +164,7 @@ const ProductDetailsScreen:React.FC<ProductDetailsProp> = ({navigation, route})=
                         </View>
 
                         <View style = {ProductDetailsScreenStyles.thirdSectionPrice}>
-                            <Text style = {ProductDetailsScreenStyles.thirdSectionPriceTxt}>N {product.price}</Text>
+                            <Text style = {ProductDetailsScreenStyles.thirdSectionPriceTxt}>{NairaSign}{formatPrice(product.price)}</Text>
                         </View>
                         
                         <View style = {ProductDetailsScreenStyles.thirdSectionDescription}>
@@ -178,9 +178,11 @@ const ProductDetailsScreen:React.FC<ProductDetailsProp> = ({navigation, route})=
 
                 </ScrollView>
 
+                
+
                 <View style = {ProductDetailsScreenStyles.forthSection}>
                     <View style = {[ProductDetailsScreenStyles.forthSectionInner, {display:forthSectionInner2_display ?  'none': 'flex'  }]}>
-                        <TouchableOpacity style = {ProductDetailsScreenStyles.forthSectionLeft} onPress={async()=>{ await AsyncStorage.removeItem('CartItems'); console.log("cleared")} }>
+                        <TouchableOpacity style = {ProductDetailsScreenStyles.forthSectionLeft}>
                             <View>
                                 <Text style = {ProductDetailsScreenStyles.forthSectionLeftTxt}>Try Out</Text>
                             </View>

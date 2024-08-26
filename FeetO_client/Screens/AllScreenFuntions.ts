@@ -9,6 +9,8 @@ const screenWidth = Math.floor(Dimensions.get("window").width);
 const appPrimaryColor = "#a12323"
 /////////////////////////////////////////
 
+const NairaSign = '\u20A6'
+
 /**This function gets the all previous screens that has been allocated*/
 const getPreviousScreen = (useNavigationState:any)=>{
 
@@ -75,4 +77,4 @@ const formatPrice = (totalPrice)=>{
 
 
 
-export {getPreviousScreen, getData, formatPrice, appPrimaryColor, screenHeight, screenWidth}
+export {getPreviousScreen, getData, formatPrice, appPrimaryColor, screenHeight, screenWidth, NairaSign}

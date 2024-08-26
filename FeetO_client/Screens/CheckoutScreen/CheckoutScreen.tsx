@@ -6,7 +6,7 @@ import CartScreenStyles from "../CartScreen/CartScreenStyles"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { faCancel, faCreditCard, faEdit, faFloppyDisk, faSave, faTimes } from "@fortawesome/free-solid-svg-icons"
 import { useNavigationState } from "@react-navigation/native"
-import { formatPrice, getPreviousScreen } from "../AllScreenFuntions"
+import { formatPrice, getPreviousScreen, NairaSign } from "../AllScreenFuntions"
 import { Paystack } from "react-native-paystack-webview"
 import { useEffect, useState } from "react"
 import { appPrimaryColor } from "../AllScreenFuntions"
@@ -199,7 +199,7 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
                                         <Text style = {CheckoutScreenStyles.paymentSummaryContLiInnerLeftTxt}>SubTotal</Text>
                                     </View>
                                     <View style = {CheckoutScreenStyles.paymentSummaryContLiInnerRight}>
-                                        <Text style = {CheckoutScreenStyles.paymentSummaryContLiInnerRightTxt}>N{formatPrice(totalItemPrice)}</Text>
+                                        <Text style = {CheckoutScreenStyles.paymentSummaryContLiInnerRightTxt}>{NairaSign}{formatPrice(totalItemPrice)}</Text>
                                     </View>
                                 </View>
 
@@ -226,7 +226,7 @@ const CheckoutScreen:React.FC<CheckoutProp> = ({navigation, route})=>{
                                         <Text style = {CheckoutScreenStyles.paymentSummaryContLiInnerLeftTxt}>Total</Text>
                                     </View>
                                     <View style = {CheckoutScreenStyles.paymentSummaryContLiInnerRight}>
-                                        <Text style = {[CheckoutScreenStyles.paymentSummaryContLiInnerRightTxt, {color:appPrimaryColor}]}>N{formatPrice(totalItemPrice)}</Text>
+                                        <Text style = {[CheckoutScreenStyles.paymentSummaryContLiInnerRightTxt, {color:appPrimaryColor}]}>{NairaSign}{formatPrice(totalItemPrice)}</Text>
                                     </View>
                                 </View>
                             </View>

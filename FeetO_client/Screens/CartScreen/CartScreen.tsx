@@ -3,7 +3,7 @@ import Header from "../Header/Header"
 import AllScreenStyles from "../AllScreenStyles"
 import CartScreenStyles from "./CartScreenStyles"
 import { useNavigationState } from "@react-navigation/native"
-import { formatPrice, getPreviousScreen } from "../AllScreenFuntions"
+import { formatPrice, getPreviousScreen, NairaSign } from "../AllScreenFuntions"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons"
 import { useEffect, useState } from "react"
@@ -138,13 +138,13 @@ const CartScreen:React.FC<CartScreenProp>= ({navigation, route})=>{
                                         <TouchableOpacity style ={CartScreenStyles.itemContiner} onPress={()=> navigation.navigate('ProductDetails', {id:item.key})}>{/**Item.................. */}
                                             <View style = {CartScreenStyles.itemContinerInner}>
                                                 <View style = {CartScreenStyles.itemImage}>{/**Item Image Container... */}
-                                                <View>
+                                                    <View>
                                                         <Image source={{uri:`data:image/jpeg;base64,${item.image.data}`}}
                                                         style ={{height:'100%', width:"100%"}}
                                                         resizeMode="contain"
                                                         />
                                                     </View>
-                                                    
+                            
                                                 </View>
 
                                                 <View style = {CartScreenStyles.itemDetails}>{/**Item Details... */}
@@ -155,7 +155,7 @@ const CartScreen:React.FC<CartScreenProp>= ({navigation, route})=>{
                                                             </Text>
                                                         </View>
                                                         <View style = {CartScreenStyles.itemDetailsLi}>
-                                                            <Text style = {CartScreenStyles.itemDetailsLiPrice}>N{item.price}</Text>
+                                                            <Text style = {CartScreenStyles.itemDetailsLiPrice}>{NairaSign}{item.price}</Text>
                                                         </View>
                                                         <View style = {CartScreenStyles.itemDetailsLi}>
                                                             <Text style = {CartScreenStyles.itemDetailsLiAvailablity}>In Stock</Text>

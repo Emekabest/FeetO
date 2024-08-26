@@ -9,7 +9,7 @@ import BottomTab from "../BottomTab/BottomTab";
 import { useNavigationState } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { appPrimaryColor, getData } from "../AllScreenFuntions";
+import { appPrimaryColor, formatPrice, getData, NairaSign } from "../AllScreenFuntions";
 import Loader from "../Loader/Loader";
 import AlertBox from "../AlertBox/AlertBox";
 
@@ -49,7 +49,6 @@ const HomeScreen:React.FC<HomeScreenProps> = ({navigation})=> {
         getItems()
     },[])
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 
 
@@ -182,6 +181,7 @@ const HomeScreen:React.FC<HomeScreenProps> = ({navigation})=> {
 
 
 
+
     /**This function handles when the slide is being scrolled manually or dragged........................ */
     const handleScroll = (event:any)=>{
         const newIndex = Math.round(event.nativeEvent.contentOffset.x / slideWidth);//Gets the X direction offset value of the slide animation scrollView after being dragged or scrolled
@@ -198,10 +198,30 @@ const HomeScreen:React.FC<HomeScreenProps> = ({navigation})=> {
         }
 
 
-
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    
+
+
+
+
+    /**This function formats the product name to a certain text limit..................................... */
+    const formatName = (name:String, limit:Number)=>{
+
+        if (name.length > limit){
+            let formattedName = ""
+            for (let i = 0; i < limit;  i ++){
+
+                formattedName += name[i]
+            }
+
+            return formattedName + '...'
+        }
+
+        return name
+    }
+    /**///////////////////////////////////////////////////////////////////////////////////////////////////// */
 
 
 
@@ -252,6 +272,7 @@ const HomeScreen:React.FC<HomeScreenProps> = ({navigation})=> {
                             
                         </View>
 
+
                     <View style = {HomeScreenStyles.advertListIndicatorContainer}>
 
                         {
@@ -288,15 +309,16 @@ const HomeScreen:React.FC<HomeScreenProps> = ({navigation})=> {
                                         />
                                     </View>
 
+                                    
+
                                     <View style = {HomeScreenStyles.productCardDetails}>
                                         <View style ={HomeScreenStyles.productCardDetailsNameCont}>
-                                            <Text style = {HomeScreenStyles.productCardDetailsName}>{item.name}</Text>
+                                            <Text style = {HomeScreenStyles.productCardDetailsName}>{formatName(item.name, 13)}</Text>
                                         </View>
                                         <View style ={HomeScreenStyles.productCardDetailsPriceCont}>
-                                            <Text style = {HomeScreenStyles.productCardDetailsPrice}>N {item.price}</Text>
+                                            <Text style = {HomeScreenStyles.productCardDetailsPrice}>{NairaSign}{formatPrice(item.price)}</Text>
                                         </View>
                                     </View>
-
                                 </TouchableOpacity>
                             )}
                         />
